@@ -1,0 +1,62 @@
+# A-2 アップロード用メタデータ(YouTube Studio にそのままコピペ可)
+# 公開は 2026-09-01 以降のみ(CLAUDE.md)。予約日まで privacy: private を維持。
+
+title: "売り物の会社はどこにある?個人が案件を探す4つのルート【スモールM&A実録 #2】"
+title_en: "Where to Find Businesses for Sale in Japan: 4 Channels Explained"
+
+description: |
+  現役サラリーマンの僕が、小さな会社を「買えるまで」を現在進行形で記録するチャンネルです。案件の探し方から、交渉、資金調達、契約まで、失敗も含めてすべて公開します。
+
+  第2回は「案件の探し方」。公的窓口・オンラインプラットフォーム・仲介会社・直接打診の4つのルートを、費用構造の違いまで含めて全体地図にします。
+
+  ▼この動画について
+  ・動画内で言及する探し方・手数料の水準は一般的な傾向であり、特定の事業者・サービスを推奨または批判するものではありません。実際の手数料は各事業者・契約により異なります。ご利用前に必ずご自身で条件をご確認ください
+  ・事業承継・引継ぎ支援センターは国の設置する公的相談窓口です(詳細は中小企業庁の公式情報をご確認ください)
+
+  ▼このチャンネルについて
+  ・くろのんは、迷う人を導く三本足の神鳥・八咫烏(やたがらす)がモチーフです
+  ・動画内の法務・会計・税務に関する内容は、専門家(弁護士・会計士)に確認した一般論であり、特定の取引を推奨するものではありません。実際の判断はご自身で専門家にご相談ください
+  ・守秘義務の観点から、個別案件の特定につながる情報(社名・金額・関係者等)は公開しません
+
+  ▼音声について
+  本動画のナレーションはAI音声合成を使用しています / VOICEVOX:青山龍星
+
+  ---
+  I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Episode 2 maps the four channels for finding businesses for sale in Japan, including what each one really costs. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Ryusei Aoyama).
+
+  May the sun crow guide your fortune today.
+
+  #スモールMA #会社を買う #事業承継
+
+tags:
+  - スモールM&A
+  - 会社を買う
+  - 個人M&A
+  - 事業承継
+  - 案件の探し方
+  - 事業承継・引継ぎ支援センター
+  - M&Aマッチング
+  - 後継者不在
+  - small business acquisition
+  - buying a business in japan
+
+category_id: "27"   # Education
+language: ja
+privacy: private    # 公開解禁(2026-09-01)までは private 厳守
+
+# 予約公開: 2026-09-08(火)19:00 JST = 10:00 UTC(週1・火曜ペース)
+scheduled_at: "2026-09-08T10:00:00Z"
+
+studio_settings:
+  ai_disclosure: true
+  made_for_kids: false
+  thumbnail: "personal_brand/videos/thumbnails/a02_thumbnail.png(生成済み)"
+  playlist: "スモールM&A実録"
+  english_metadata: "title_en と description 英語部分を「字幕」>「タイトルと説明の翻訳」に設定"
+
+pre_publish_checklist:
+  - "§7 の表現(手数料の桁)が NDA 由来情報の示唆に当たらないか — 壬生"
+  - "プラットフォーム・仲介の固有名ゼロ/スクショ・掲載情報転載なし(自作モック明記)"
+  - "手数料解説に「一般的な傾向」テロップ+概要欄免責"
+  - "BGM・画像素材の商用利用ライセンス確認"
+  - "AI開示ラベル ON を確認"
