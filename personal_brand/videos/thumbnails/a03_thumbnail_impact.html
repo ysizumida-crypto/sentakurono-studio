@@ -1,0 +1,93 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { width:1280px; height:720px; overflow:hidden; }
+.thumb {
+  position:relative; width:1280px; height:720px; overflow:hidden;
+  background:
+    repeating-conic-gradient(from 0deg at 62% 42%,
+      #FFD400 0deg 6deg, #FFAA00 6deg 12deg);
+  font-family:"Noto Sans JP","IPAPGothic",sans-serif;
+}
+/* 集中線(黒・外周のみ) */
+.lines {
+  position:absolute; inset:-200px;
+  background: repeating-conic-gradient(from 3deg at 62% 42%,
+      rgba(0,0,0,.85) 0deg 1.2deg, transparent 1.2deg 12deg);
+  -webkit-mask-image: radial-gradient(circle at 62% 42%, transparent 0 46%, #000 78%);
+          mask-image: radial-gradient(circle at 62% 42%, transparent 0 46%, #000 78%);
+}
+/* 上帯 */
+.topband {
+  position:absolute; top:0; left:0; right:0; height:120px;
+  background:#D7263D; transform:skewY(-1.6deg) translateY(-14px);
+  box-shadow:0 8px 0 #7e0f1e;
+}
+.topband span {
+  position:absolute; left:40px; top:26px;
+  font-weight:900; font-size:64px; letter-spacing:.02em; color:#fff;
+  text-shadow: 4px 4px 0 #000;
+}
+.topband b { color:#FFE95C; }
+/* メイン文字(白フチ+黒本体) */
+.jp {
+  position:absolute; left:28px; top:150px; z-index:5;
+  font-weight:900; line-height:1.04; letter-spacing:.01em;
+  font-size:190px; color:#111;
+  -webkit-text-stroke:16px #fff;
+  paint-order:stroke fill;
+  text-shadow: 10px 12px 0 rgba(0,0,0,.55);
+}
+.jp .red {
+  color:#E8352E;
+  background:none;
+}
+/* 下帯 */
+.botband {
+  position:absolute; bottom:0; left:0; right:0; height:104px;
+  background:#111;
+}
+.botband span {
+  position:absolute; left:36px; top:18px;
+  font-weight:900; font-size:56px; color:#3DDC5A;
+  text-shadow:3px 3px 0 #000;
+  letter-spacing:.04em;
+}
+.botband em { font-style:normal; color:#fff; }
+/* くろのん(驚き・白フチスタンプ風) */
+.kuronon {
+  position:absolute; right:-70px; bottom:-40px; width:620px; z-index:6;
+  transform:rotate(-4deg);
+  filter:
+    drop-shadow(6px 0 0 #fff) drop-shadow(-6px 0 0 #fff)
+    drop-shadow(0 6px 0 #fff) drop-shadow(0 -6px 0 #fff)
+    drop-shadow(10px 14px 10px rgba(0,0,0,.45));
+}
+/* 驚きマーク */
+.bang {
+  position:absolute; right:520px; top:210px; z-index:7;
+  font-weight:900; font-size:150px; color:#FFE95C;
+  -webkit-text-stroke:10px #E8352E; paint-order:stroke fill;
+  transform:rotate(-8deg);
+  text-shadow:8px 10px 0 rgba(0,0,0,.4);
+}
+/* 実録バッジ */
+.badge {
+  position:absolute; right:34px; top:150px; z-index:8;
+  width:170px; height:170px; border-radius:50%;
+  background:#D7263D; border:8px solid #fff;
+  box-shadow:6px 8px 0 rgba(0,0,0,.5);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  color:#fff; font-weight:900; transform:rotate(8deg);
+}
+.badge .s1 { font-size:34px; }
+.badge .s2 { font-size:64px; line-height:1; color:#FFE95C; text-shadow:2px 2px 0 #000; }
+</style></head>
+<body><div class="thumb">
+  <div class="lines"></div>
+  <div class="topband"><span>買ってはいけない<b>会社がある</b></span></div>
+  <div class="jp" style="font-size:150px; top:170px;">安いには、<br><span class="red">理由がある</span>。</div>
+  <div class="bang" style="right:500px; top:190px;">!</div>
+  <img class="kuronon" src="../avatar/production/kuronon_serious.png">
+  <div class="badge"><div class="s1">実録</div><div class="s2">#3</div></div>
+  <div class="botband"><span>SPOTTING <em>RED FLAGS</em></span></div>
+</div></body></html>
