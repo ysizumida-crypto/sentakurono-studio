@@ -1,0 +1,58 @@
+# A-1 アップロード用メタデータ(YouTube Studio にそのままコピペ可)
+# 公開は 2026-09-01 以降のみ(CLAUDE.md コンプライアンス)。それまでは privacy: private を維持。
+
+title: "なぜ現役サラリーマンの僕が「会社を買う」のか【スモールM&A実録 #1】"
+title_en: "Why This Ordinary Japanese Salaryman Is Buying a Business"
+
+description: |
+  現役サラリーマンの僕が、小さな会社を「買えるまで」を現在進行形で記録するチャンネルです。案件の探し方から、交渉、資金調達、契約まで、失敗も含めてすべて公開します。
+
+  ▼このチャンネルについて
+  ・くろのんは、迷う人を導く三本足の神鳥・八咫烏(やたがらす)がモチーフです
+  ・動画内の法務・会計・税務に関する内容は、専門家(弁護士・会計士)に確認した一般論であり、特定の取引を推奨するものではありません。実際の判断はご自身で専門家にご相談ください
+  ・守秘義務の観点から、個別案件の特定につながる情報(社名・金額・関係者等)は公開しません
+
+  ▼音声について
+  本動画のナレーションはAI音声合成を使用しています / VOICEVOX:青山龍星
+
+  ---
+  I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Ryusei Aoyama).
+
+  May the sun crow guide your fortune today.
+
+  #スモールMA #会社を買う #個人MA
+
+tags:
+  - スモールM&A
+  - 会社を買う
+  - 個人M&A
+  - 事業承継
+  - 後継者不在
+  - サラリーマン
+  - 起業
+  - マイクロM&A
+  - small business acquisition
+  - buying a business in japan
+
+category_id: "27"   # Education
+language: ja
+privacy: private    # 公開解禁(2026-09-01)までは private 厳守
+
+# 予約公開: 2026-09-01(月)19:00 JST = 10:00 UTC
+scheduled_at: "2026-09-01T10:00:00Z"
+
+# YouTube Studio 側で手動設定する項目
+studio_settings:
+  ai_disclosure: true          # 「改変または合成されたコンテンツ」ラベル ON(AI音声のため必須)
+  made_for_kids: false         # 子ども向けではない
+  thumbnail: "サムネ仕様は script_v0.1.md §3 参照(「会社は、買える。」+くろのん小判差分)"
+  playlist: "スモールM&A実録"
+  english_metadata: "title_en と description 英語部分を「字幕」>「タイトルと説明の翻訳」に設定"
+
+# 公開前チェック(script_v0.1.md §5・upload/README.md 末尾参照)
+pre_publish_checklist:
+  - "§6(破談言及)の最終確認 — 壬生"
+  - "動画内・説明欄に社名・案件名・関係者名なし"
+  - "チャンネル名・プロフィールに本業を匂わせる表現なし"
+  - "BGM・画像素材の商用利用ライセンス確認"
+  - "AI開示ラベル ON を確認"
