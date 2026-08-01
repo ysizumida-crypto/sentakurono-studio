@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" font-family="'Hiragino Sans','Noto Sans JP','Helvetica Neue',sans-serif">
+  <defs>
+    <!-- ===== 身体ベース(頭中心が原点) ===== -->
+    <g id="char-base">
+      <path d="M 55,180 L 132,148 L 122,206 Z" fill="#1E1E24"/>
+      <ellipse cx="-92" cy="140" rx="26" ry="52" fill="#16161C" transform="rotate(18 -92 140)"/>
+      <ellipse cx="92" cy="140" rx="26" ry="52" fill="#16161C" transform="rotate(-18 92 140)"/>
+      <ellipse cx="0" cy="150" rx="95" ry="82" fill="#1E1E24"/>
+      <ellipse cx="0" cy="172" rx="52" ry="44" fill="#3A3A44"/>
+      <ellipse cx="-40" cy="232" rx="22" ry="10" fill="#F5A623"/>
+      <ellipse cx="40" cy="232" rx="22" ry="10" fill="#F5A623"/>
+      <g transform="rotate(7 0 95)">
+        <polygon points="-13,86 13,86 0,102" fill="#E94F37"/>
+        <polygon points="0,102 -15,148 0,182 15,148" fill="#E94F37"/>
+        <polygon points="0,102 15,148 0,182" fill="#000000" opacity="0.12"/>
+      </g>
+    </g>
+    <!-- ===== 頭ベース(トサカ2本=シルエットの記号) ===== -->
+    <g id="head-base">
+      <path d="M -28,-118 Q -36,-160 -8,-168 Q -18,-140 -2,-124 Z" fill="#1E1E24"/>
+      <path d="M 18,-122 Q 30,-158 50,-150 Q 32,-134 28,-114 Z" fill="#1E1E24"/>
+      <circle cx="0" cy="0" r="128" fill="#1E1E24"/>
+    </g>
+    <!-- ===== 表情: 通常 ===== -->
+    <g id="face-normal">
+      <ellipse cx="-80" cy="30" rx="17" ry="11" fill="#F49BAB" opacity="0.65"/>
+      <ellipse cx="80" cy="30" rx="17" ry="11" fill="#F49BAB" opacity="0.65"/>
+      <circle cx="-50" cy="-18" r="34" fill="#FFFFFF"/>
+      <circle cx="50" cy="-18" r="34" fill="#FFFFFF"/>
+      <circle cx="-46" cy="-14" r="15" fill="#1E1E24"/>
+      <circle cx="46" cy="-14" r="15" fill="#1E1E24"/>
+      <circle cx="-41" cy="-20" r="5.5" fill="#FFFFFF"/>
+      <circle cx="51" cy="-20" r="5.5" fill="#FFFFFF"/>
+      <polygon points="-15,14 15,14 0,38" fill="#F5A623"/>
+    </g>
+    <!-- ===== 表情: 笑顔 ===== -->
+    <g id="face-smile">
+      <ellipse cx="-80" cy="30" rx="19" ry="12" fill="#F49BAB" opacity="0.85"/>
+      <ellipse cx="80" cy="30" rx="19" ry="12" fill="#F49BAB" opacity="0.85"/>
+      <path d="M -76,-12 Q -50,-40 -24,-12" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M 24,-12 Q 50,-40 76,-12" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <polygon points="-16,12 16,12 0,30" fill="#F5A623"/>
+      <polygon points="-10,26 10,26 0,44" fill="#E08E1B"/>
+    </g>
+    <!-- ===== 表情: 驚き ===== -->
+    <g id="face-surprised">
+      <ellipse cx="-80" cy="34" rx="15" ry="10" fill="#F49BAB" opacity="0.4"/>
+      <ellipse cx="80" cy="34" rx="15" ry="10" fill="#F49BAB" opacity="0.4"/>
+      <circle cx="-50" cy="-18" r="38" fill="#FFFFFF"/>
+      <circle cx="50" cy="-18" r="38" fill="#FFFFFF"/>
+      <circle cx="-50" cy="-14" r="8" fill="#1E1E24"/>
+      <circle cx="50" cy="-14" r="8" fill="#1E1E24"/>
+      <polygon points="-16,8 16,8 0,26" fill="#F5A623"/>
+      <ellipse cx="0" cy="34" rx="13" ry="11" fill="#5C2E0E"/>
+      <g stroke="#FFD966" stroke-width="7" stroke-linecap="round">
+        <line x1="96" y1="-108" x2="110" y2="-126"/>
+        <line x1="112" y1="-88" x2="132" y2="-98"/>
+        <line x1="76" y1="-120" x2="82" y2="-142"/>
+      </g>
+    </g>
+    <!-- ===== 表情: 困り ===== -->
+    <g id="face-troubled">
+      <ellipse cx="-80" cy="30" rx="16" ry="10" fill="#F49BAB" opacity="0.5"/>
+      <ellipse cx="80" cy="30" rx="16" ry="10" fill="#F49BAB" opacity="0.5"/>
+      <path d="M -70,-46 L -30,-58" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 30,-58 L 70,-46" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="-50" cy="-14" r="30" fill="#FFFFFF"/>
+      <circle cx="50" cy="-14" r="30" fill="#FFFFFF"/>
+      <circle cx="-52" cy="-6" r="13" fill="#1E1E24"/>
+      <circle cx="48" cy="-6" r="13" fill="#1E1E24"/>
+      <polygon points="-13,16 13,16 0,34" fill="#F5A623" transform="rotate(-6 0 24)"/>
+      <path d="M 102,-80 C 116,-60 116,-48 102,-44 C 88,-48 88,-60 102,-80 Z" fill="#8FD3F4"/>
+    </g>
+    <!-- ===== 表情: 真剣 ===== -->
+    <g id="face-serious">
+      <path d="M -72,-56 L -28,-48" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 28,-48 L 72,-56" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="-50" cy="-16" r="32" fill="#FFFFFF"/>
+      <circle cx="50" cy="-16" r="32" fill="#FFFFFF"/>
+      <circle cx="-47" cy="-13" r="14" fill="#1E1E24"/>
+      <circle cx="47" cy="-13" r="14" fill="#1E1E24"/>
+      <circle cx="-42" cy="-18" r="4.5" fill="#FFFFFF"/>
+      <circle cx="52" cy="-18" r="4.5" fill="#FFFFFF"/>
+      <polygon points="-15,14 15,14 0,38" fill="#F5A623"/>
+    </g>
+    <!-- ===== シルエット(判別テスト用) ===== -->
+    <g id="silhouette">
+      <path d="M -28,-118 Q -36,-160 -8,-168 Q -18,-140 -2,-124 Z" fill="#1E1E24"/>
+      <path d="M 18,-122 Q 30,-158 50,-150 Q 32,-134 28,-114 Z" fill="#1E1E24"/>
+      <circle cx="0" cy="0" r="128" fill="#1E1E24"/>
+      <path d="M 55,180 L 132,148 L 122,206 Z" fill="#1E1E24"/>
+      <ellipse cx="0" cy="150" rx="95" ry="82" fill="#1E1E24"/>
+      <ellipse cx="-40" cy="232" rx="22" ry="10" fill="#1E1E24"/>
+      <ellipse cx="40" cy="232" rx="22" ry="10" fill="#1E1E24"/>
+    </g>
+  </defs>
+
+  <!-- ===== 背景・タイトル ===== -->
+  <rect width="1400" height="900" fill="#FAF7F2"/>
+  <text x="60" y="82" font-size="52" font-weight="bold" fill="#1E1E24">くろのん</text>
+  <text x="330" y="82" font-size="24" fill="#6B6B76">KURONON — The Suited Crow Investor</text>
+  <text x="60" y="116" font-size="18" fill="#9B958C">Character Design Sheet v1.0(原案)/ 2026-08-01 / ぷろたん組織 九条起案</text>
+  <line x1="60" y1="140" x2="1340" y2="140" stroke="#E5E0D8" stroke-width="2"/>
+
+  <!-- ===== 基本立ち絵(電卓持ち) ===== -->
+  <ellipse cx="300" cy="648" rx="115" ry="16" fill="#E8E2D8"/>
+  <g transform="translate(300,400)">
+    <use href="#char-base"/>
+    <use href="#head-base"/>
+    <use href="#face-normal"/>
+    <g transform="translate(-122,148) rotate(-14)">
+      <rect x="-22" y="-30" width="44" height="60" rx="8" fill="#FFFFFF" stroke="#D8D2C8" stroke-width="2"/>
+      <rect x="-14" y="-22" width="28" height="13" rx="2" fill="#BFE8D2"/>
+      <g fill="#9AA0AA">
+        <circle cx="-10" cy="2" r="3.4"/><circle cx="0" cy="2" r="3.4"/><circle cx="10" cy="2" r="3.4"/>
+        <circle cx="-10" cy="14" r="3.4"/><circle cx="0" cy="14" r="3.4"/><circle cx="10" cy="14" r="3.4"/>
+      </g>
+    </g>
+  </g>
+  <text x="300" y="686" font-size="19" fill="#1E1E24" text-anchor="middle" font-weight="bold">基本立ち絵 / Base Pose(電卓=M&amp;Aの記号)</text>
+
+  <!-- ===== 表情差分 ===== -->
+  <text x="726" y="186" font-size="22" font-weight="bold" fill="#1E1E24">表情差分 / Expressions(5種)</text>
+  <g transform="translate(800,280) scale(0.5)"><use href="#head-base"/><use href="#face-normal"/></g>
+  <text x="800" y="380" font-size="17" fill="#6B6B76" text-anchor="middle">通常 / Neutral</text>
+  <g transform="translate(1020,280) scale(0.5)"><use href="#head-base"/><use href="#face-smile"/></g>
+  <text x="1020" y="380" font-size="17" fill="#6B6B76" text-anchor="middle">笑顔 / Happy</text>
+  <g transform="translate(1240,280) scale(0.5)"><use href="#head-base"/><use href="#face-surprised"/></g>
+  <text x="1240" y="380" font-size="17" fill="#6B6B76" text-anchor="middle">驚き / Surprised</text>
+  <g transform="translate(800,500) scale(0.5)"><use href="#head-base"/><use href="#face-troubled"/></g>
+  <text x="800" y="600" font-size="17" fill="#6B6B76" text-anchor="middle">困り / Troubled</text>
+  <g transform="translate(1020,500) scale(0.5)"><use href="#head-base"/><use href="#face-serious"/></g>
+  <text x="1020" y="600" font-size="17" fill="#6B6B76" text-anchor="middle">真剣 / Serious</text>
+  <g transform="translate(1240,488) scale(0.3)"><use href="#silhouette"/></g>
+  <text x="1240" y="600" font-size="17" fill="#6B6B76" text-anchor="middle">シルエット判別テスト</text>
+
+  <!-- ===== 口パク3段階 ===== -->
+  <text x="726" y="662" font-size="22" font-weight="bold" fill="#1E1E24">口パク3段階 / Lip-sync States</text>
+  <g transform="translate(800,750)">
+    <circle r="54" fill="#FFFFFF" stroke="#EDE8DF" stroke-width="2"/>
+    <polygon points="-24,-10 24,-10 0,26" fill="#F5A623"/>
+  </g>
+  <text x="800" y="836" font-size="16" fill="#6B6B76" text-anchor="middle">閉 / Closed</text>
+  <g transform="translate(1020,750)">
+    <circle r="54" fill="#FFFFFF" stroke="#EDE8DF" stroke-width="2"/>
+    <ellipse cx="0" cy="8" rx="10" ry="8" fill="#5C2E0E"/>
+    <polygon points="-24,-14 24,-14 0,10" fill="#F5A623"/>
+    <polygon points="-14,10 14,10 0,26" fill="#E08E1B"/>
+  </g>
+  <text x="1020" y="836" font-size="16" fill="#6B6B76" text-anchor="middle">半開 / Half</text>
+  <g transform="translate(1240,750)">
+    <circle r="54" fill="#FFFFFF" stroke="#EDE8DF" stroke-width="2"/>
+    <ellipse cx="0" cy="14" rx="16" ry="14" fill="#5C2E0E"/>
+    <polygon points="-24,-20 24,-20 0,4" fill="#F5A623"/>
+    <polygon points="-14,24 14,24 0,40" fill="#E08E1B"/>
+  </g>
+  <text x="1240" y="836" font-size="16" fill="#6B6B76" text-anchor="middle">開 / Open</text>
+
+  <!-- ===== カラーパレット ===== -->
+  <text x="60" y="722" font-size="22" font-weight="bold" fill="#1E1E24">カラーパレット / Palette(基本3色+補助)</text>
+  <g font-size="13" fill="#6B6B76">
+    <rect x="60" y="740" width="56" height="56" rx="8" fill="#1E1E24"/>
+    <text x="88" y="816" text-anchor="middle">クロ</text><text x="88" y="834" text-anchor="middle">#1E1E24</text>
+    <rect x="140" y="740" width="56" height="56" rx="8" fill="#3A3A44"/>
+    <text x="168" y="816" text-anchor="middle">チャコール</text><text x="168" y="834" text-anchor="middle">#3A3A44</text>
+    <rect x="220" y="740" width="56" height="56" rx="8" fill="#FFFFFF" stroke="#E5E0D8"/>
+    <text x="248" y="816" text-anchor="middle">ホワイト</text><text x="248" y="834" text-anchor="middle">#FFFFFF</text>
+    <rect x="300" y="740" width="56" height="56" rx="8" fill="#F5A623"/>
+    <text x="328" y="816" text-anchor="middle">ビーク黄</text><text x="328" y="834" text-anchor="middle">#F5A623</text>
+    <rect x="380" y="740" width="56" height="56" rx="8" fill="#E94F37"/>
+    <text x="408" y="816" text-anchor="middle">タイ赤</text><text x="408" y="834" text-anchor="middle">#E94F37</text>
+    <rect x="460" y="740" width="56" height="56" rx="8" fill="#F49BAB"/>
+    <text x="488" y="816" text-anchor="middle">チーク桃</text><text x="488" y="834" text-anchor="middle">#F49BAB</text>
+    <rect x="540" y="740" width="56" height="56" rx="8" fill="#8FD3F4"/>
+    <text x="568" y="816" text-anchor="middle">スカイ</text><text x="568" y="834" text-anchor="middle">#8FD3F4</text>
+  </g>
+  <text x="60" y="874" font-size="15" fill="#9B958C">デザイン原則: ①3色ルール(黒×黄×赤で95%を構成) ②線なしフラット造形(小画面・サムネでの視認性=世界基準) ③トサカ2本+ゆるネクタイでシルエットのみでも判別可能</text>
+</svg>

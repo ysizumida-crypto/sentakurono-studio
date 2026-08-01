@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1254" height="1254" viewBox="0 0 1254 1254">
+  <defs><filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+  <image href="kuronon_base_transparent.png" x="0" y="0" width="1254" height="1254"/>
+  <ellipse cx="628" cy="618" rx="64" ry="52" fill="#26252A" filter="url(#soft)"/>
+    <polygon points="584,586 672,586 628,616" fill="#FEDA5B"/>
+    <ellipse cx="628" cy="640" rx="30" ry="26" fill="#5C2E0E"/>
+    <polygon points="602,668 654,668 628,694" fill="#F0A930"/>
+</svg>
