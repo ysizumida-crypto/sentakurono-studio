@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1254" height="1254" viewBox="0 0 1254 1254">
+  <defs><filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+  <image href="kuronon_base_transparent.png" x="0" y="0" width="1254" height="1254"/>
+  <g filter="url(#soft)">
+      <ellipse cx="546" cy="535" rx="88" ry="112" fill="#26252A"/>
+      <ellipse cx="712" cy="527" rx="88" ry="112" fill="#26252A"/>
+    </g>
+    <path d="M 478,478 L 592,494" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/>
+    <path d="M 664,494 L 778,478" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/>
+    <ellipse cx="546" cy="552" rx="66" ry="54" fill="#FFFFFF"/>
+    <ellipse cx="712" cy="544" rx="66" ry="54" fill="#FFFFFF"/>
+    <circle cx="556" cy="556" r="32" fill="#141317"/>
+    <circle cx="702" cy="548" r="32" fill="#141317"/>
+    <circle cx="547" cy="547" r="9" fill="#FFFFFF"/>
+    <circle cx="711" cy="539" r="9" fill="#FFFFFF"/>
+</svg>
