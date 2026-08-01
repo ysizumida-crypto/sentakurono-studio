@@ -1,0 +1,1 @@
+# sentakurono-studio
