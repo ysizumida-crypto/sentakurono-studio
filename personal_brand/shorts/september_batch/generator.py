@@ -157,7 +157,7 @@ def audio_chunk(wavfn, voff, dur):
     return chunk[:ns*sw]+b'\x00'*max(0,ns*sw-len(chunk)), r
 
 # ---- 共通セグメント(short01 の資産を再利用) ----
-DUR = dict(hook=6.0, harai=14.0, charm=9.0, prayer=12.0, close=6.0)
+DUR = dict(hook=6.0, harai=16.0, charm=9.0, prayer=12.0, close=6.0)
 VOFF = dict(hook=2.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
 # 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
@@ -166,7 +166,7 @@ encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai
 encode_seg('segs/close.mp4', f'{S1}/ov_close.png', f'{S1}/close.wav', DUR['close'], 'happy',            VOFF['close'], 5.2, fade_out=True)
 # 祈り4種
 for pi,(ptext,pjp,pen) in enumerate(PRAYERS):
-    synth(ptext, 1.0, f'segs/prayer{pi}.wav')
+    synth(ptext, 0.95, f'segs/prayer{pi}.wav')
     render_overlay(f'segs/ov_prayer{pi}.html', f'segs/ov_prayer{pi}.png',
         fs=74, entop=640, chip='今日の金運祈願 — DAILY FORTUNE PRAYER', jp=pjp, en=pen)
     encode_seg(f'segs/prayer{pi}.mp4', f'segs/ov_prayer{pi}.png', f'segs/prayer{pi}.wav',
@@ -206,7 +206,7 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx47.wav',
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx49.wav',
             '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
             f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
             f"[4:a]volume=0.26,afade=t=in:st=0:d=0.4[amb];"
