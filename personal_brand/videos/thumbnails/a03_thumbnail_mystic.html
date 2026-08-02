@@ -1,0 +1,56 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { width:1280px; height:720px; overflow:hidden; }
+.t { position:relative; width:1280px; height:720px; overflow:hidden;
+  background:
+    radial-gradient(900px 620px at 42% 44%, #241633 0%, #140E20 52%, #0B0710 100%);
+  font-family:"Noto Sans JP",sans-serif; }
+/* まばらな星 */
+.st { position:absolute; border-radius:50%; background:#FBF3E4; opacity:.5; }
+.gd { position:absolute; border-radius:50%;
+  background:radial-gradient(circle,#F7CE58,#F5C542 60%,transparent 75%); opacity:.85; }
+/* 黒い日輪(蝕) */
+.ring1 { position:absolute; left:42%; top:44%; width:760px; height:760px; margin:-380px 0 0 -380px;
+  border-radius:50%; border:1px solid rgba(245,197,66,.22); }
+.ring2 { position:absolute; left:42%; top:44%; width:560px; height:560px; margin:-280px 0 0 -280px;
+  border-radius:50%; border:1px dashed rgba(245,197,66,.3); }
+.eclipse { position:absolute; left:42%; top:44%; width:360px; height:360px; margin:-180px 0 0 -180px;
+  border-radius:50%; background:#0B0710;
+  box-shadow: 0 0 70px 16px rgba(245,197,66,.62), 0 0 200px 60px rgba(245,197,66,.20); }
+/* くろのん(蝕の麓・金の逆光) */
+.kuronon { position:absolute; left:42%; bottom:-46px; width:470px; margin-left:-235px;
+  filter: drop-shadow(0 0 26px rgba(245,197,66,.55)) drop-shadow(0 10px 24px rgba(0,0,0,.6)); }
+/* 縦書き題字(掛け軸) */
+.title { position:absolute; right:44px; top:28px; height:700px;
+  writing-mode:vertical-rl; text-orientation:mixed;
+  font-family:"Noto Serif JP",serif; font-weight:900; font-size:100px; line-height:1.14;
+  letter-spacing:.06em; color:#F5C542;
+  text-shadow:0 0 26px rgba(245,197,66,.45), 0 4px 20px rgba(0,0,0,.9); }
+/* 落款印 */
+.seal { position:absolute; right:52px; bottom:52px; width:104px; height:104px;
+  background:#B23A2B; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.55); transform:rotate(-3deg); }
+.seal span { writing-mode:vertical-rl; font-family:"Noto Serif JP",serif; font-weight:900;
+  font-size:38px; line-height:1.05; color:#FBF3E4; letter-spacing:.08em; }
+/* 英文(左下・金罫) */
+.en { position:absolute; left:56px; bottom:56px; font-weight:900; font-size:30px;
+  letter-spacing:.24em; color:#FBF3E4; opacity:.92; }
+.en::before { content:""; display:block; width:96px; height:4px; background:#F5C542; margin-bottom:14px; }
+</style></head><body><div class="t">
+  <div class="st" style="left:120px;top:90px;width:3px;height:3px"></div>
+  <div class="st" style="left:300px;top:210px;width:2px;height:2px"></div>
+  <div class="st" style="left:200px;top:420px;width:2px;height:2px"></div>
+  <div class="st" style="left:640px;top:80px;width:3px;height:3px"></div>
+  <div class="st" style="left:900px;top:640px;width:2px;height:2px"></div>
+  <div class="gd" style="left:170px;top:560px;width:10px;height:10px"></div>
+  <div class="gd" style="left:560px;top:130px;width:7px;height:7px"></div>
+  <div class="gd" style="left:820px;top:560px;width:9px;height:9px"></div>
+  <div class="gd" style="left:90px;top:300px;width:6px;height:6px"></div>
+  <div class="ring1"></div><div class="ring2"></div>
+  <div class="eclipse"></div>
+  <img class="kuronon" src="../avatar/production/kuronon_serious.png">
+  <div class="title">安いには、<br>理由がある。</div>
+  <div class="seal"><span>実録参</span></div>
+  <div class="en">SPOTTING RED FLAGS</div>
+</div></body></html>
