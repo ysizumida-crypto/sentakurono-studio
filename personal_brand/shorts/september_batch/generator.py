@@ -45,6 +45,7 @@ CHARMS = [  # (日, 縁起物名, 読み上げ文, 画面JP, 画面EN)
  (29,'竹','きょうの縁起物は、たけ。まっすぐ、しなやかに、のびていきます。','竹(たけ)',"Bamboo — straight, supple, unstoppable."),
  (30,'松','きょうの縁起物は、まつ。冬のあいだも、緑をたやしません。','松(まつ)',"The pine — green through every winter."),
 ]
+EMOJI = ['🍀','🐴','🐞','🐱','🪙','🎠','🪬','🧿','🎎','🐟','🕊️','🐢','🗻','🔨','🎣','🌾','🦉','🐍','🦁','⛩️','🪧','🧧','🧹','🎀','🐠','🌙','🌟','🌸','🎋','🌲']
 PRAYERS = [  # 4種ローテ (読み上げ, 画面JP, 画面EN)
  ('あなたの金運の扉が、しずかに、ひらきますように。','あなたの<span class="g">金運の扉</span>が、<br>ひらきますように。','May the doors of your fortune<br>quietly open.'),
  ('あなたの努力が、めぐりめぐって、実をむすびますように。','あなたの努力が、<br><span class="g">実をむすびます</span>ように。','May your efforts come back around<br>and bear fruit.'),
@@ -93,8 +94,8 @@ def render_overlay(fn_html, fn_png, **kw):
 
 KX,KY,KW = 130,1010,820
 F = KW/1254
-MW,MH = int(130*F),int(160*F)
-MX,MY = int(KX+575*F),int(KY+555*F)
+MW,MH = int(130*F),int(122*F)
+MX,MY = int(KX+575*F),int(KY+588*F)
 
 def speech_gate(wavfn, voff):
     w = wave.open(wavfn); r=w.getframerate(); sw=w.getsampwidth()
@@ -123,8 +124,8 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     if fade_in: fades+=',fade=t=in:st=0:d=0.5:color=0x0B0710'
     if fade_out: fades+=f',fade=t=out:st={vdur-0.6:.2f}:d=0.6:color=0x0B0710'
     fc=f"""[1:v]scale={KW}:-1[k];
-[2:v]crop=130:160:575:555,scale={MW}:{MH}[mh];
-[3:v]crop=130:160:575:555,scale={MW}:{MH}[mo];
+[2:v]crop=130:122:575:588,scale={MW}:{MH}[mh];
+[3:v]crop=130:122:575:588,scale={MW}:{MH}[mo];
 [4:v]format=rgba,fade=t=in:st=0.15:d=0.5:alpha=1[txt];
 [0:v][k]overlay={KX}:y='{KY}+{bob}'[v1];
 [v1][mh]overlay={MX}:y='{MY}+{bob}':enable='({gate})*(lt(mod(t,0.20),0.05)+gte(mod(t,0.20),0.15))'[v2];
@@ -173,7 +174,8 @@ for day,cname,cspoken,cjp,cen in CHARMS:
     render_overlay(f'segs/ov_charm{day:02d}.html', f'segs/ov_charm{day:02d}.png',
         fs=(74 if len(cjp)<=8 else 64), entop=640,
         chip=f'9月{day}日の金運祈願 — DAILY FORTUNE PRAYER',
-        jp=f'今日の縁起物<br><span class="g">{cjp}</span>', en=cen)
+        jp=f'今日の縁起物<br><span class="g">{cjp}</span>',
+        en=cen + f'<div style="margin-top:36px;font-size:150px;font-family:\'Noto Color Emoji\'">{EMOJI[day-1]}</div>')
     encode_seg(f'segs/charm{day:02d}.mp4', f'segs/ov_charm{day:02d}.png', f'segs/charm{day:02d}.wav',
         DUR['charm'], 'happy', VOFF['charm'], (day*1.7)%8)
     pi=(day-1)%4
@@ -197,10 +199,11 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-filter_complex',
-            f"[2:a]atrim=0:{D},volume=0.22,afade=t=in:st=0:d=1.2[b];[1:a]asplit[voice][sc];"
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx45.wav','-filter_complex',
+            f"[2:a]atrim=0:{D},volume=0.20,afade=t=in:st=0:d=1.2[b];[1:a]asplit[voice][sc];"
             f"[b][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
-            f"[voice][bd]amix=inputs=2:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
+            f"[3:a]volume=0.9[sfx];"
+            f"[voice][bd][sfx]amix=inputs=3:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
             '-map','0:v','-map','[a]','-c:v','copy','-c:a','aac','-b:a','160k','-shortest',final],
             check=True,capture_output=True)
     print(f'{tag} {cname} ok', flush=True)
