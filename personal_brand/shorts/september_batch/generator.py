@@ -7,7 +7,7 @@ os.environ['NO_PROXY'] = '127.0.0.1'
 BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
 os.chdir(f'{BASEDIR}/kaiun_sep')
 AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
-BG = f'{BASEDIR}/mystic/mystic_bg_v.mp4'
+BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
 S1 = f'{BASEDIR}/short01'
 FPS = 30
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
