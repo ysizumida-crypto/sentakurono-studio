@@ -157,8 +157,8 @@ def audio_chunk(wavfn, voff, dur):
     return chunk[:ns*sw]+b'\x00'*max(0,ns*sw-len(chunk)), r
 
 # ---- 共通セグメント(short01 の資産を再利用) ----
-DUR = dict(hook=4.0, harai=14.0, charm=9.0, prayer=12.0, close=6.0)
-VOFF = dict(hook=0.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
+DUR = dict(hook=6.0, harai=14.0, charm=9.0, prayer=12.0, close=6.0)
+VOFF = dict(hook=2.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
 # 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
 encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True)
@@ -206,10 +206,10 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx45.wav',
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx47.wav',
             '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
-            f"[2:a]atrim=0:{D},volume=0.18,afade=t=in:st=0:d=1.2[bgm];"
-            f"[4:a]volume=0.16,afade=t=in:st=0:d=1.5[amb];"
+            f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
+            f"[4:a]volume=0.26,afade=t=in:st=0:d=0.4[amb];"
             f"[bgm][amb]amix=inputs=2:duration=first:normalize=0[bed];"
             f"[1:a]asplit[voice][sc];"
             f"[bed][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
