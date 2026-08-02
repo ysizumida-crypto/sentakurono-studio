@@ -184,7 +184,7 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         open(cc,'w').write('\n'.join([
             "file 'hook.mp4'","file 'harai.mp4'",f"file 'charm{day:02d}.mp4'",
             f"file 'prayer{pi}.mp4'","file 'close.mp4'"]))
-        subprocess.run(['ffmpeg','-y','-f','concat','-safe','0','-i',cc,'-c','copy',f'segs/v{day:02d}.mp4'],
+        subprocess.run(['ffmpeg','-y','-f','concat','-safe','0','-i',f'cc{day:02d}.txt','-c','copy',f'v{day:02d}.mp4'],
                        check=True,capture_output=True,cwd='segs')
         # 音声組み立て
         parts=[]; rate=None
