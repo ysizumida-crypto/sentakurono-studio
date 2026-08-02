@@ -7,7 +7,7 @@ os.environ['NO_PROXY'] = '127.0.0.1'
 BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
 os.chdir(f'{BASEDIR}/kaiun_sep')
 AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
-BG = f'{BASEDIR}/mystic/mystic_bg_v.mp4'
+BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
 S1 = f'{BASEDIR}/short01'
 FPS = 30
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -115,7 +115,7 @@ def speech_gate(wavfn, voff):
     sp=[(s+voff,e+voff) for s,e in merged if e-s>=0.1]
     return ('+'.join(f'between(t,{a:.2f},{b:.2f})' for a,b in sp) or '0'), data, r, sw
 
-def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_out=False):
+def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_out=False, window=None):
     if os.path.exists(out): return
     frames=round(dur*FPS); vdur=frames/FPS
     gate,_,_,_ = speech_gate(wavfn, voff)
@@ -129,16 +129,26 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
             f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
             f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
+    wi = 5 + (1 if blink else 0)
+    if window:
+        whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
+                 f"[0:v][win]overlay=220:236[bgw];")
+        src = '[bgw]'
+    else:
+        whead = ''; src = '[0:v]'
     fc=f"""[1:v]scale={KW}:-1[k];
 [2:v]crop=130:122:575:588,scale={MW}:{MH}[mh];
 [3:v]crop=130:122:575:588,scale={MW}:{MH}[mo];
 [4:v]format=rgba,fade=t=in:st=0.15:d=0.5:alpha=1[txt];
-[0:v][k]overlay={KX}:y='{KY}+{bob}'[v1];
+{whead}
+{src}[k]overlay={KX}:y='{KY}+{bob}'[v1];
 [v1][mh]overlay={MX}:y='{MY}+{bob}':enable='({gate})*(lt(mod(t,0.20),0.05)+gte(mod(t,0.20),0.15))'[v2];
 [v2][mo]overlay={MX}:y='{MY}+{bob}':enable='({gate})*between(mod(t,0.20),0.05,0.15)'[v3];
 {tail}"""
     fcf=out.replace('.mp4','.fc.txt'); open(fcf,'w').write(fc)
     inputs_extra = ['-loop','1','-i',f'{AV}/kuronon_happy.png'] if blink else []
+    if window:
+        inputs_extra += ['-i', window, '-loop','1','-i', f'{BASEDIR}/nachi/mask.png']
     r=subprocess.run(['ffmpeg','-y','-ss',f'{bgoff:.2f}','-stream_loop','-1','-i',BG,
         '-loop','1','-i',f'{AV}/kuronon_{expr}.png',
         '-loop','1','-i',f'{AV}/kuronon_mouth_half.png',
@@ -157,16 +167,16 @@ def audio_chunk(wavfn, voff, dur):
     return chunk[:ns*sw]+b'\x00'*max(0,ns*sw-len(chunk)), r
 
 # ---- 共通セグメント(short01 の資産を再利用) ----
-DUR = dict(hook=4.0, harai=14.0, charm=9.0, prayer=12.0, close=6.0)
-VOFF = dict(hook=0.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
+DUR = dict(hook=6.0, harai=16.0, charm=9.0, prayer=12.0, close=6.0)
+VOFF = dict(hook=2.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
 # 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
-encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True)
-encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3)
+encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True, window=f'{BASEDIR}/nachi/falls_hook.mp4')
+encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3, window=f'{BASEDIR}/nachi/falls_harai.mp4')
 encode_seg('segs/close.mp4', f'{S1}/ov_close.png', f'{S1}/close.wav', DUR['close'], 'happy',            VOFF['close'], 5.2, fade_out=True)
 # 祈り4種
 for pi,(ptext,pjp,pen) in enumerate(PRAYERS):
-    synth(ptext, 1.0, f'segs/prayer{pi}.wav')
+    synth(ptext, 0.95, f'segs/prayer{pi}.wav')
     render_overlay(f'segs/ov_prayer{pi}.html', f'segs/ov_prayer{pi}.png',
         fs=74, entop=640, chip='今日の金運祈願 — DAILY FORTUNE PRAYER', jp=pjp, en=pen)
     encode_seg(f'segs/prayer{pi}.mp4', f'segs/ov_prayer{pi}.png', f'segs/prayer{pi}.wav',
@@ -206,9 +216,13 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx45.wav','-filter_complex',
-            f"[2:a]atrim=0:{D},volume=0.20,afade=t=in:st=0:d=1.2[b];[1:a]asplit[voice][sc];"
-            f"[b][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx49.wav',
+            '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
+            f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
+            f"[4:a]volume=0.26,afade=t=in:st=0:d=0.4[amb];"
+            f"[bgm][amb]amix=inputs=2:duration=first:normalize=0[bed];"
+            f"[1:a]asplit[voice][sc];"
+            f"[bed][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
             f"[3:a]volume=0.9[sfx];"
             f"[voice][bd][sfx]amix=inputs=3:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
             '-map','0:v','-map','[a]','-c:v','copy','-c:a','aac','-b:a','160k','-shortest',final],
