@@ -206,9 +206,13 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx45.wav','-filter_complex',
-            f"[2:a]atrim=0:{D},volume=0.20,afade=t=in:st=0:d=1.2[b];[1:a]asplit[voice][sc];"
-            f"[b][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx45.wav',
+            '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
+            f"[2:a]atrim=0:{D},volume=0.18,afade=t=in:st=0:d=1.2[bgm];"
+            f"[4:a]volume=0.16,afade=t=in:st=0:d=1.5[amb];"
+            f"[bgm][amb]amix=inputs=2:duration=first:normalize=0[bed];"
+            f"[1:a]asplit[voice][sc];"
+            f"[bed][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
             f"[3:a]volume=0.9[sfx];"
             f"[voice][bd][sfx]amix=inputs=3:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
             '-map','0:v','-map','[a]','-c:v','copy','-c:a','aac','-b:a','160k','-shortest',final],

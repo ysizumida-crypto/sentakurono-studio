@@ -16,6 +16,7 @@
 
 ※開運演出はエンターテインメントです(効果を保証するものではありません)
 ※ナレーションはAI音声合成を使用 / VOICEVOX:冥鳴ひまり
+※環境音: 熊野・那智の滝(チャンネル管理者が現地で録音した実音)
 
 ▼BGM
 "Ishikari Lore" Kevin MacLeod (incompetech.com)
