@@ -115,7 +115,7 @@ def speech_gate(wavfn, voff):
     sp=[(s+voff,e+voff) for s,e in merged if e-s>=0.1]
     return ('+'.join(f'between(t,{a:.2f},{b:.2f})' for a,b in sp) or '0'), data, r, sw
 
-def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_out=False):
+def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_out=False, window=None):
     if os.path.exists(out): return
     frames=round(dur*FPS); vdur=frames/FPS
     gate,_,_,_ = speech_gate(wavfn, voff)
@@ -129,16 +129,26 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
             f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
             f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
+    wi = 5 + (1 if blink else 0)
+    if window:
+        whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
+                 f"[0:v][win]overlay=220:236[bgw];")
+        src = '[bgw]'
+    else:
+        whead = ''; src = '[0:v]'
     fc=f"""[1:v]scale={KW}:-1[k];
 [2:v]crop=130:122:575:588,scale={MW}:{MH}[mh];
 [3:v]crop=130:122:575:588,scale={MW}:{MH}[mo];
 [4:v]format=rgba,fade=t=in:st=0.15:d=0.5:alpha=1[txt];
-[0:v][k]overlay={KX}:y='{KY}+{bob}'[v1];
+{whead}
+{src}[k]overlay={KX}:y='{KY}+{bob}'[v1];
 [v1][mh]overlay={MX}:y='{MY}+{bob}':enable='({gate})*(lt(mod(t,0.20),0.05)+gte(mod(t,0.20),0.15))'[v2];
 [v2][mo]overlay={MX}:y='{MY}+{bob}':enable='({gate})*between(mod(t,0.20),0.05,0.15)'[v3];
 {tail}"""
     fcf=out.replace('.mp4','.fc.txt'); open(fcf,'w').write(fc)
     inputs_extra = ['-loop','1','-i',f'{AV}/kuronon_happy.png'] if blink else []
+    if window:
+        inputs_extra += ['-i', window, '-loop','1','-i', f'{BASEDIR}/nachi/mask.png']
     r=subprocess.run(['ffmpeg','-y','-ss',f'{bgoff:.2f}','-stream_loop','-1','-i',BG,
         '-loop','1','-i',f'{AV}/kuronon_{expr}.png',
         '-loop','1','-i',f'{AV}/kuronon_mouth_half.png',
@@ -161,8 +171,8 @@ DUR = dict(hook=6.0, harai=16.0, charm=9.0, prayer=12.0, close=6.0)
 VOFF = dict(hook=2.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
 # 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
-encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True)
-encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3)
+encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True, window=f'{BASEDIR}/nachi/falls_hook.mp4')
+encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3, window=f'{BASEDIR}/nachi/falls_harai.mp4')
 encode_seg('segs/close.mp4', f'{S1}/ov_close.png', f'{S1}/close.wav', DUR['close'], 'happy',            VOFF['close'], 5.2, fade_out=True)
 # 祈り4種
 for pi,(ptext,pjp,pen) in enumerate(PRAYERS):
