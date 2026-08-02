@@ -45,6 +45,7 @@ CHARMS = [  # (日, 縁起物名, 読み上げ文, 画面JP, 画面EN)
  (29,'竹','きょうの縁起物は、たけ。まっすぐ、しなやかに、のびていきます。','竹(たけ)',"Bamboo — straight, supple, unstoppable."),
  (30,'松','きょうの縁起物は、まつ。冬のあいだも、緑をたやしません。','松(まつ)',"The pine — green through every winter."),
 ]
+EMOJI = ['🍀','🐴','🐞','🐱','🪙','🎠','🪬','🧿','🎎','🐟','🕊️','🐢','🗻','🔨','🎣','🌾','🦉','🐍','🦁','⛩️','🪧','🧧','🧹','🎀','🐠','🌙','🌟','🌸','🎋','🌲']
 PRAYERS = [  # 4種ローテ (読み上げ, 画面JP, 画面EN)
  ('あなたの金運の扉が、しずかに、ひらきますように。','あなたの<span class="g">金運の扉</span>が、<br>ひらきますように。','May the doors of your fortune<br>quietly open.'),
  ('あなたの努力が、めぐりめぐって、実をむすびますように。','あなたの努力が、<br><span class="g">実をむすびます</span>ように。','May your efforts come back around<br>and bear fruit.'),
@@ -93,8 +94,8 @@ def render_overlay(fn_html, fn_png, **kw):
 
 KX,KY,KW = 130,1010,820
 F = KW/1254
-MW,MH = int(130*F),int(160*F)
-MX,MY = int(KX+575*F),int(KY+555*F)
+MW,MH = int(130*F),int(122*F)
+MX,MY = int(KX+575*F),int(KY+588*F)
 
 def speech_gate(wavfn, voff):
     w = wave.open(wavfn); r=w.getframerate(); sw=w.getsampwidth()
@@ -122,20 +123,27 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     fades=''
     if fade_in: fades+=',fade=t=in:st=0:d=0.5:color=0x0B0710'
     if fade_out: fades+=f',fade=t=out:st={vdur-0.6:.2f}:d=0.6:color=0x0B0710'
+    blink = (expr == 'base_transparent')
+    EW,EH = int(390*F), int(185*F)
+    EX,EY = int(KX+435*F), int(KY+425*F)
+    tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
+            f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
+            f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
     fc=f"""[1:v]scale={KW}:-1[k];
-[2:v]crop=130:160:575:555,scale={MW}:{MH}[mh];
-[3:v]crop=130:160:575:555,scale={MW}:{MH}[mo];
+[2:v]crop=130:122:575:588,scale={MW}:{MH}[mh];
+[3:v]crop=130:122:575:588,scale={MW}:{MH}[mo];
 [4:v]format=rgba,fade=t=in:st=0.15:d=0.5:alpha=1[txt];
 [0:v][k]overlay={KX}:y='{KY}+{bob}'[v1];
 [v1][mh]overlay={MX}:y='{MY}+{bob}':enable='({gate})*(lt(mod(t,0.20),0.05)+gte(mod(t,0.20),0.15))'[v2];
 [v2][mo]overlay={MX}:y='{MY}+{bob}':enable='({gate})*between(mod(t,0.20),0.05,0.15)'[v3];
-[v3][txt]overlay=0:0{fades}[vout]"""
+{tail}"""
     fcf=out.replace('.mp4','.fc.txt'); open(fcf,'w').write(fc)
+    inputs_extra = ['-loop','1','-i',f'{AV}/kuronon_happy.png'] if blink else []
     r=subprocess.run(['ffmpeg','-y','-ss',f'{bgoff:.2f}','-stream_loop','-1','-i',BG,
         '-loop','1','-i',f'{AV}/kuronon_{expr}.png',
         '-loop','1','-i',f'{AV}/kuronon_mouth_half.png',
         '-loop','1','-i',f'{AV}/kuronon_mouth_open.png',
-        '-loop','1','-i',ovpng,
+        '-loop','1','-i',ovpng] + inputs_extra + [
         '-filter_complex_script',fcf,'-map','[vout]',
         '-frames:v',str(frames),'-r','30','-c:v','libx264','-preset','superfast','-crf','20',
         '-pix_fmt','yuv420f' if False else 'yuv420p','-an',out],capture_output=True,text=True)
@@ -152,10 +160,10 @@ def audio_chunk(wavfn, voff, dur):
 DUR = dict(hook=4.0, harai=14.0, charm=9.0, prayer=12.0, close=6.0)
 VOFF = dict(hook=0.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
-for name in ('hook','harai','close'):
-    src=f'{S1}/seg_{name}.mp4'
-    if not os.path.exists(f'segs/{name}.mp4'):
-        subprocess.run(['cp',src,f'segs/{name}.mp4'],check=True)
+# 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
+encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True)
+encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3)
+encode_seg('segs/close.mp4', f'{S1}/ov_close.png', f'{S1}/close.wav', DUR['close'], 'happy',            VOFF['close'], 5.2, fade_out=True)
 # 祈り4種
 for pi,(ptext,pjp,pen) in enumerate(PRAYERS):
     synth(ptext, 1.0, f'segs/prayer{pi}.wav')
@@ -173,7 +181,8 @@ for day,cname,cspoken,cjp,cen in CHARMS:
     render_overlay(f'segs/ov_charm{day:02d}.html', f'segs/ov_charm{day:02d}.png',
         fs=(74 if len(cjp)<=8 else 64), entop=640,
         chip=f'9月{day}日の金運祈願 — DAILY FORTUNE PRAYER',
-        jp=f'今日の縁起物<br><span class="g">{cjp}</span>', en=cen)
+        jp=f'今日の縁起物<br><span class="g">{cjp}</span>',
+        en=cen + f'<div style="margin-top:36px;font-size:150px;font-family:\'Noto Color Emoji\'">{EMOJI[day-1]}</div>')
     encode_seg(f'segs/charm{day:02d}.mp4', f'segs/ov_charm{day:02d}.png', f'segs/charm{day:02d}.wav',
         DUR['charm'], 'happy', VOFF['charm'], (day*1.7)%8)
     pi=(day-1)%4
@@ -197,10 +206,11 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-filter_complex',
-            f"[2:a]atrim=0:{D},volume=0.22,afade=t=in:st=0:d=1.2[b];[1:a]asplit[voice][sc];"
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx45.wav','-filter_complex',
+            f"[2:a]atrim=0:{D},volume=0.20,afade=t=in:st=0:d=1.2[b];[1:a]asplit[voice][sc];"
             f"[b][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
-            f"[voice][bd]amix=inputs=2:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
+            f"[3:a]volume=0.9[sfx];"
+            f"[voice][bd][sfx]amix=inputs=3:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
             '-map','0:v','-map','[a]','-c:v','copy','-c:a','aac','-b:a','160k','-shortest',final],
             check=True,capture_output=True)
     print(f'{tag} {cname} ok', flush=True)
