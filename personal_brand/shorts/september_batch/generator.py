@@ -70,11 +70,11 @@ OV_TPL = '''<!doctype html><html><head><meta charset="utf-8"><style>
  color:#0B0710;background:#F5C542;padding:10px 30px}}
 .jp{{position:absolute;left:0;width:1080px;top:260px;text-align:center;
  font-family:"Noto Serif JP",serif;font-weight:900;font-size:{fs}px;line-height:1.5;color:#FBF3E4;
- text-shadow:0 0 34px rgba(245,197,66,.55),0 4px 26px rgba(0,0,0,.85)}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 0 34px rgba(245,197,66,.55),0 4px 26px rgba(0,0,0,.85)}}
 .jp .g{{color:#F5C542}}
 .en{{position:absolute;left:0;width:1080px;top:{entop}px;text-align:center;font-family:"Noto Sans JP";
  font-weight:900;font-size:44px;line-height:1.55;color:#FBF3E4;opacity:.92;
- text-shadow:0 3px 18px rgba(0,0,0,.9)}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 3px 18px rgba(0,0,0,.9)}}
 .d{{position:absolute;left:0;width:1080px;bottom:30px;text-align:center;font-family:"Noto Sans JP";
  font-weight:700;font-size:26px;color:#FBF3E4;opacity:.55}}
 </style></head><body>

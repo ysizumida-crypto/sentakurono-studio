@@ -55,7 +55,20 @@ CUTS = [
   'あなたにも、世界中のみなさまにも、<br><span class="g">無常の精神</span>が<br>宿りますように。',
   'May the spirit of mujo dwell in you,<br>and in everyone in this world.', 58),
 ]
-D = sum(c[1] for c in CUTS)
+# 尺は音声の実長から決める。固定値にすると合成音声がはみ出して末尾が切れる(2026-08-03 の不具合)
+TAIL = 0.9          # 語り終わりの余韻
+TAIL_LAST = 2.0     # 最終カットはフェードアウトぶん長く
+def _wav_len(fn):
+    import wave as _w
+    with __import__('contextlib').closing(_w.open(fn)) as w: return w.getnframes()/w.getframerate()
+def compute_durations():
+    ds=[]
+    for i,c in enumerate(CUTS):
+        key, voff, spoken = c[0], c[3], c[5]
+        synth(spoken, f'{key}.wav')
+        tail = TAIL_LAST if i==len(CUTS)-1 else TAIL
+        ds.append(round(voff + _wav_len(f'{key}.wav') + tail, 2))
+    return ds
 
 def synth(text, fn, speed=0.95):
     if os.path.exists(fn): return
@@ -73,11 +86,11 @@ OV = '''<!doctype html><html><head><meta charset="utf-8"><style>
  color:#0B0710;background:#F5C542;padding:10px 28px}}
 .jp{{position:absolute;left:0;width:1080px;top:262px;text-align:center;
  font-family:"Noto Serif JP",serif;font-weight:900;font-size:{fs}px;line-height:1.55;color:#FBF3E4;
- text-shadow:0 0 34px rgba(245,197,66,.55),0 4px 26px rgba(0,0,0,.9)}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 0 34px rgba(245,197,66,.55),0 4px 26px rgba(0,0,0,.9)}}
 .jp .g{{color:#F5C542}}
 .en{{position:absolute;left:0;width:1080px;top:660px;text-align:center;font-family:"Noto Sans JP";
  font-weight:900;font-size:40px;line-height:1.55;color:#FBF3E4;opacity:.93;
- text-shadow:0 3px 18px rgba(0,0,0,.95)}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 3px 18px rgba(0,0,0,.95)}}
 .d{{position:absolute;left:0;width:1080px;bottom:30px;text-align:center;font-family:"Noto Sans JP";
  font-weight:700;font-size:26px;color:#FBF3E4;opacity:.55}}
 </style></head><body>
@@ -95,7 +108,13 @@ MX,MY = int(KX+575*F),int(KY+588*F)
 EW,EH = int(390*F), int(185*F)
 EX,EY = int(KX+435*F), int(KY+425*F)
 
-# --- 効果音(62秒) ---
+DURS = compute_durations()
+STARTS = [sum(DURS[:i]) for i in range(len(DURS))]
+D = sum(DURS)
+
+# --- 効果音: カット頭を基準に配置 ---
+SFX_AT = {0:('tuner',0.4), 2:('suzu',0.2), 4:('om',0.0), 5:('suzu',0.2),
+          6:('suzu',0.2), 7:('om',0.0), 8:('suzu',0.2), 9:('tuner',0.4)}
 if not os.path.exists('sfx.wav'):
     random.seed(11); R=44100; N=int(R*D); buf=[0.0]*N
     def tuner(t0,amp=0.30,freq=4096.0,dur=3.5):
@@ -117,19 +136,26 @@ if not os.path.exists('sfx.wav'):
         for i in range(int(dur*R)):
             t=i/R; env=min(1,t/1.5)*min(1,(dur-t)/2.0)
             if n0+i<N: buf[n0+i]+=amp*env*math.sin(2*math.pi*freq*t)
-    tuner(0.4); suzu(26.2); om(49.0, 17.0); suzu(66.2, amp=0.17); suzu(81.2, amp=0.16); om(96.0, 18.0, amp=0.04); suzu(112.2, amp=0.15); tuner(126.4, amp=0.24)
+    SUZU_AMP={2:0.20, 5:0.17, 6:0.16, 8:0.15}
+    for ci,(kind,off) in SFX_AT.items():
+        t0=STARTS[ci]+off
+        if kind=='tuner': tuner(t0, amp=0.30 if ci==0 else 0.24)
+        elif kind=='suzu': suzu(t0, amp=SUZU_AMP.get(ci,0.18))
+        else: om(t0, DURS[ci])
     mx=max(abs(v) for v in buf); sc=0.9/mx if mx>0.9 else 1.0
     w=wave.open('sfx.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(R)
     w.writeframes(b''.join(struct.pack('<h',int(max(-1,min(1,v*sc))*32767)) for v in buf)); w.close()
 
 audio=[]; rate=None; segs=[]
-for idx,(key,dur,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
+for idx,(key,_dur_unused,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
+    dur = DURS[idx]
     wavf=f'{key}.wav'; synth(spoken, wavf)
     w=wave.open(wavf); r=w.getframerate(); sw=w.getsampwidth()
     data=w.readframes(w.getnframes()); w.close(); rate=r
     frames=round(dur*FPS); vdur=frames/FPS
     ns=int(round(vdur*r)); pre=int(round(voff*r))
     chunk=b'\x00'*pre*sw+data
+    assert len(chunk) <= ns*sw, f'{key}: 音声が尺を超えています({len(chunk)/(r*sw):.2f}s > {vdur:.2f}s)'
     audio.append(chunk[:ns*sw]+b'\x00'*max(0,ns*sw-len(chunk)))
     hop=int(r*0.03); step=hop*sw
     rms=[audioop.rms(data[o:o+step],sw) for o in range(0,len(data)-step,step)]
@@ -163,7 +189,7 @@ for idx,(key,dur,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
     wi=5
     if blink:
         inputs += ['-loop','1','-i',f'{AV}/kuronon_happy.png']; wi=6
-    inputs += ['-ss',f'{woff % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+    inputs += ['-ss',f'{STARTS[idx] % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
     blink_tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
                   f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
                   f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
