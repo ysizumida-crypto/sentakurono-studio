@@ -26,22 +26,26 @@ CUTS = [
   'けれど、日本だけが、ちがいました。神にもすがらず、未来も約束しない。さようなら。もとのかたちは、左様ならば。そうであるならば、という、ただの接続の言葉です。',
   '<span class="g">さようなら</span><br>= 左様ならば',
   '"Sayonara" = "If it must be so."', 84),
- ('mujo', 16.0, 'base_transparent', 0.8, 37.0,
+ ('mujo', 17.0, 'base_transparent', 0.8, 37.0,
   'その背後には、無常という思想があります。咲いた花は、かならず散る。結ばれたご縁も、いつか別れる。だから日本人は、終わることを恐れるより、終わりかたの美しさを大切にしました。',
   '<span class="g">無常</span>——<br>終わりかたの美しさを、<br>大切にした。',
   'Mujo: all things pass.<br>So we chose to end beautifully.', 62),
- ('bushi', 15.0, 'serious', 0.8, 53.0,
+ ('sakura', 15.0, 'base_transparent', 0.8, 54.0,
+  '散る桜を見て、なぜ散るのか、とは問いません。散りゆく刹那こそが、美しい。それが、日本人の美意識でした。',
+  '散る桜に、<span class="g">なぜ</span>とは問わない。<br>散りゆく<span class="g">刹那</span>こそ、美しい。',
+  'We never ask the falling blossom why.<br>The falling itself is the beauty.', 60),
+ ('bushi', 15.0, 'serious', 0.8, 69.0,
   '侍の強さとは、刀を振ることではありません。抜かずに、納めておくこと。怒りにも、悲しみにも、飲まれないこと。それを、武士と呼びました。',
   '刀を<span class="g">抜かずに納める</span>。<br>それを、武士と呼んだ。',
   'True strength: the sword<br>that stays in its sheath.', 62),
- ('kakugo', 15.0, 'serious', 0.8, 68.0,
-  'だからこそ、日本人が最後に残す言葉は、悲鳴でも、恨みでもありません。さようなら。感情がないからではない。感情よりも、覚悟を選んだからです。',
-  '感情が<span class="g">ない</span>のではない。<br>感情より、<span class="g">覚悟</span>を選んだ。',
-  'Not the absence of feeling —<br>the choice of resolve over it.', 62),
- ('close', 12.0, 'happy', 0.8, 83.0,
-  'すがらず、恨まず、ただ受け入れて、また歩き出す。それが、この島の、別れかたです。あなたにも、世界にも、しずかな明日が、ありますように。',
-  'あなたにも、世界にも、<br><span class="g">しずかな明日</span>がありますように。',
-  'May you, and the world,<br>have a quiet tomorrow.', 62),
+ ('kakugo', 16.0, 'serious', 0.8, 84.0,
+  'だからこそ、日本人が最後に残す言葉は、悲鳴でも、恨みでもありません。さようなら。感情がないからではない。感情よりも、覚悟を選んだからです。その一言には、果てしないほど強い覚悟が、宿っているのです。',
+  'その一言に、<br><span class="g">果てしない覚悟</span>が<br>宿っている。',
+  'In that one word lives<br>a resolve without end.', 60),
+ ('close', 13.0, 'happy', 0.8, 100.0,
+  'あなたにも、世界中のみなさまにも、無常の精神が、宿りますように。',
+  'あなたにも、世界中のみなさまにも、<br><span class="g">無常の精神</span>が<br>宿りますように。',
+  'May the spirit of mujo dwell in you,<br>and in everyone in this world.', 58),
 ]
 D = sum(c[1] for c in CUTS)
 
@@ -105,7 +109,7 @@ if not os.path.exists('sfx.wav'):
         for i in range(int(dur*R)):
             t=i/R; env=min(1,t/1.5)*min(1,(dur-t)/2.0)
             if n0+i<N: buf[n0+i]+=amp*env*math.sin(2*math.pi*freq*t)
-    tuner(0.4); suzu(24.2); om(37.0, 15.0); suzu(53.2); suzu(68.2, amp=0.16); tuner(84.0, amp=0.22)
+    tuner(0.4); suzu(24.2); om(37.0, 16.0); suzu(54.2, amp=0.17); suzu(69.2, amp=0.16); om(84.0, 14.0); tuner(92.5, amp=0.24)
     mx=max(abs(v) for v in buf); sc=0.9/mx if mx>0.9 else 1.0
     w=wave.open('sfx.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(R)
     w.writeframes(b''.join(struct.pack('<h',int(max(-1,min(1,v*sc))*32767)) for v in buf)); w.close()
