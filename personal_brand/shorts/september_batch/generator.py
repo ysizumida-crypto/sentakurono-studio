@@ -5,7 +5,7 @@ import json, urllib.request, urllib.parse, os, wave, audioop, subprocess, warnin
 warnings.filterwarnings('ignore')
 os.environ['NO_PROXY'] = '127.0.0.1'
 BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
-WINDUR = 16.4667   # 那智の滝ループ(絶対固定版)の長さ
+WINDUR = 12.0   # 那智の滝ループ(絶対固定版)の長さ
 os.chdir(f'{BASEDIR}/kaiun_sep')
 AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
 BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
@@ -218,7 +218,7 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
             '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx49.wav',
-            '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
+            '-i',f'{BASEDIR}/nachi/nachi_amb.wav','-filter_complex',
             f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
             f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.55,afade=t=in:st=0:d=0.4[amb0];"
             f"[1:a]asplit=3[voice][sc1][sc2];"

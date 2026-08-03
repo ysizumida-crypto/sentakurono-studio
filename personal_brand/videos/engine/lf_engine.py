@@ -101,7 +101,7 @@ def encode_cut(out, bgkey, ovpng, expr, gate, frames, vdur, bgoff, fade_in, fade
             inputs += ['-loop','1','-i',f'{AV}/kuronon_happy.png']; n = 6
         wi = n
         if window:
-            inputs += ['-ss',f'{woff % 16.4667:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+            inputs += ['-ss',f'{woff % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
         whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay={WOX}:{WOY}[bgw];") if window else ''
         src = '[bgw]' if window else '[0:v]'
@@ -121,7 +121,7 @@ def encode_cut(out, bgkey, ovpng, expr, gate, frames, vdur, bgoff, fade_in, fade
         inputs += ['-loop','1','-i',ovpng]
         wi = 2
         if window:
-            inputs += ['-ss',f'{woff % 16.4667:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+            inputs += ['-ss',f'{woff % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
         whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay={WOX}:{WOY}[bgw];") if window else ''
         src = '[bgw]' if window else '[0:v]'
@@ -166,7 +166,7 @@ def build(ep, header, script_path, section_texts, SPEC, workdir, out_name, sfx_m
             outp=f'segs/c{g:03d}.mp4'
             encode_cut(outp, bgk, ovp, expr, gate, frames, vdur, (g*1.7)%8,
                        j==0 and sec==min(SPEC.keys()), j==len(subs)-1 and sec==max(SPEC.keys()),
-                       window, (tcum+cs)%16.4667)
+                       window, (tcum+cs)%12.0)
             seg_files.append(outp)
             ns=int(round(vdur*rate)); s0=int(round(cs*rate))
             chunk=data[s0*sw:(s0+ns)*sw]; chunk+=b'\x00'*(ns*sw-len(chunk))
@@ -208,7 +208,7 @@ def build(ep, header, script_path, section_texts, SPEC, workdir, out_name, sfx_m
     D=total
     subprocess.run(['ffmpeg','-y','-i','video_silent.mp4','-i','voice_full.wav',
         '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i','sfx.wav',
-        '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
+        '-i',f'{BASEDIR}/nachi/nachi_amb.wav','-filter_complex',
         f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=0:d=2[bgm];"
         f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.36,afade=t=in:st=0:d=0.5[amb0];"
         f"[1:a]asplit=3[voice][sc1][sc2];"
