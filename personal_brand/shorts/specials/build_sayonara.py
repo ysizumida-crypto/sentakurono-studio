@@ -193,7 +193,7 @@ for idx,(key,_dur_unused,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
     blink_tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
                   f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
                   f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
-    fc=f"""[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];
+    fc=f"""[{wi}:v]setpts=PTS-STARTPTS,format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];
 [0:v][win]overlay=220:236[bgw];
 [1:v]scale={KW}:-1[k];
 [2:v]crop=130:122:575:588,scale={MW}:{MH}[mh];
