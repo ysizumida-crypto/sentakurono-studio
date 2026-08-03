@@ -163,7 +163,7 @@ for idx,(key,dur,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
     wi=5
     if blink:
         inputs += ['-loop','1','-i',f'{AV}/kuronon_happy.png']; wi=6
-    inputs += ['-ss',f'{woff % 16.4667:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+    inputs += ['-ss',f'{woff % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
     blink_tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
                   f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
                   f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
@@ -190,7 +190,7 @@ vw.close()
 open('cc.txt','w').write('\n'.join(f"file '{s}'" for s in segs))
 subprocess.run(['ffmpeg','-y','-f','concat','-safe','0','-i','cc.txt','-c','copy','v.mp4'],check=True,capture_output=True)
 subprocess.run(['ffmpeg','-y','-i','v.mp4','-i','voice.wav','-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3',
-  '-i','sfx.wav','-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
+  '-i','sfx.wav','-i',f'{BASEDIR}/nachi/nachi_amb.wav','-filter_complex',
   f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
   f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.55,afade=t=in:st=0:d=0.4[amb0];"
   f"[1:a]asplit=3[voice][sc1][sc2];"
