@@ -64,7 +64,7 @@ OV_TPL = '''<!doctype html><html><head><meta charset="utf-8"><style>
  letter-spacing:.12em;color:#0B0710;background:#F5C542;padding:8px 22px;opacity:.92}}
 .t{{position:absolute;left:0;width:1920px;top:{top}px;text-align:center;
  font-family:"Noto Serif JP",serif;font-weight:900;font-size:{fs}px;line-height:1.5;color:#FBF3E4;
- text-shadow:0 0 30px rgba(245,197,66,.5),0 4px 24px rgba(0,0,0,.8);letter-spacing:.02em}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 0 30px rgba(245,197,66,.5),0 4px 24px rgba(0,0,0,.8);letter-spacing:.02em}}
 .t .g{{color:#F5C542}}
 .d{{position:absolute;left:0;width:1920px;bottom:34px;text-align:center;font-family:"Noto Sans JP";
  font-weight:700;font-size:27px;color:#FBF3E4;opacity:.6}}
