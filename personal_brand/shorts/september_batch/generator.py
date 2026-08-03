@@ -132,7 +132,7 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
             f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
     wi = 5 + (1 if blink else 0)
     if window:
-        whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
+        whead = (f"[{wi}:v]setpts=PTS-STARTPTS,format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay=220:236[bgw];")
         src = '[bgw]'
     else:

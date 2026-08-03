@@ -102,7 +102,7 @@ def encode_cut(out, bgkey, ovpng, expr, gate, frames, vdur, bgoff, fade_in, fade
         wi = n
         if window:
             inputs += ['-ss',f'{woff % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
-        whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
+        whead = (f"[{wi}:v]setpts=PTS-STARTPTS,format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay={WOX}:{WOY}[bgw];") if window else ''
         src = '[bgw]' if window else '[0:v]'
         blink_tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
@@ -122,7 +122,7 @@ def encode_cut(out, bgkey, ovpng, expr, gate, frames, vdur, bgoff, fade_in, fade
         wi = 2
         if window:
             inputs += ['-ss',f'{woff % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
-        whead = (f"[{wi}:v]format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
+        whead = (f"[{wi}:v]setpts=PTS-STARTPTS,format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay={WOX}:{WOY}[bgw];") if window else ''
         src = '[bgw]' if window else '[0:v]'
         fc = f"{whead}[1:v]format=rgba[txt];{src}[txt]overlay=0:0{fades}[vout]"
