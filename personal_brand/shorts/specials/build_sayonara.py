@@ -14,35 +14,43 @@ opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 VV = 'http://127.0.0.1:50021'; SPK = 14
 
 CUTS = [
- ('hook', 8.0, 'base_transparent', 1.6, 0.0,
-  '世界でいちばん、しずかな別れの言葉が、日本にあります。',
-  '世界でいちばん、<br><span class="g">しずかな別れ</span>の言葉。',
-  'The quietest farewell in the world.', 76),
- ('world', 16.0, 'base_transparent', 0.8, 8.0,
+ ('hook', 10.0, 'base_transparent', 1.6, 0.0,
+  'わたしたちが、人生で、何万回も口にしてきた言葉があります。さようなら。世界でいちばん、しずかな、別れの言葉です。',
+  '人生で<span class="g">何万回</span>も、<br>口にしてきた言葉。',
+  'A word you have spoken<br>ten thousand times — sayonara.', 72),
+ ('world', 16.0, 'base_transparent', 0.8, 10.0,
   '英語のグッバイは、神があなたとともにありますように。中国語のツァイチェンは、またお会いしましょう。フランス語のオルヴォワールも、また会う日まで。世界の別れは、神に祈るか、再会を願うか。そのどちらかでした。',
   '世界の別れは、<br>神に祈るか、再会を願うか。',
   'Goodbye = "God be with you."<br>Au revoir = "until we meet again."', 66),
- ('origin', 13.0, 'base_transparent', 0.8, 24.0,
+ ('origin', 13.0, 'base_transparent', 0.8, 26.0,
   'けれど、日本だけが、ちがいました。神にもすがらず、未来も約束しない。さようなら。もとのかたちは、左様ならば。そうであるならば、という、ただの接続の言葉です。',
   '<span class="g">さようなら</span><br>= 左様ならば',
   '"Sayonara" = "If it must be so."', 84),
- ('mujo', 17.0, 'base_transparent', 0.8, 37.0,
+ ('turn', 10.0, 'base_transparent', 0.8, 39.0,
+  '静かで、冷たい言葉にさえ、聞こえるかもしれません。けれど、本当の意味は、その真逆でした。',
+  '冷たい言葉に、聞こえますか。<br>本当の意味は、<span class="g">真逆</span>でした。',
+  'It may sound cold.<br>Its true meaning is the opposite.', 62),
+ ('mujo', 17.0, 'base_transparent', 0.8, 49.0,
   'その背後には、無常という思想があります。咲いた花は、かならず散る。結ばれたご縁も、いつか別れる。だから日本人は、終わることを恐れるより、終わりかたの美しさを大切にしました。',
   '<span class="g">無常</span>——<br>終わりかたの美しさを、<br>大切にした。',
   'Mujo: all things pass.<br>So we chose to end beautifully.', 62),
- ('sakura', 15.0, 'base_transparent', 0.8, 54.0,
+ ('sakura', 15.0, 'base_transparent', 0.8, 66.0,
   '散る桜を見て、なぜ散るのか、とは問いません。散りゆく刹那こそが、美しい。それが、日本人の美意識でした。',
   '散る桜に、<span class="g">なぜ</span>とは問わない。<br>散りゆく<span class="g">刹那</span>こそ、美しい。',
   'We never ask the falling blossom why.<br>The falling itself is the beauty.', 60),
- ('bushi', 15.0, 'serious', 0.8, 69.0,
+ ('bushi', 15.0, 'serious', 0.8, 81.0,
   '侍の強さとは、刀を振ることではありません。抜かずに、納めておくこと。怒りにも、悲しみにも、飲まれないこと。それを、武士と呼びました。',
   '刀を<span class="g">抜かずに納める</span>。<br>それを、武士と呼んだ。',
   'True strength: the sword<br>that stays in its sheath.', 62),
- ('kakugo', 16.0, 'serious', 0.8, 84.0,
+ ('kakugo', 16.0, 'serious', 0.8, 96.0,
   'だからこそ、日本人が最後に残す言葉は、悲鳴でも、恨みでもありません。さようなら。感情がないからではない。感情よりも、覚悟を選んだからです。その一言には、果てしないほど強い覚悟が、宿っているのです。',
   'その一言に、<br><span class="g">果てしない覚悟</span>が<br>宿っている。',
   'In that one word lives<br>a resolve without end.', 60),
- ('close', 13.0, 'happy', 0.8, 100.0,
+ ('gouse', 14.0, 'serious', 0.8, 112.0,
+  'さようなら、という一言にあるもの。執着を、そっと手放す、やわらかさ。感情に、飲みこまれない、つよさ。そして、美しく終わる、という祈り。',
+  '手放す<span class="g">やわらかさ</span>。<br>飲まれない<span class="g">つよさ</span>。<br>美しく終わる、<span class="g">祈り</span>。',
+  'Softness to let go. Strength unswayed.<br>And a prayer to end beautifully.', 58),
+ ('close', 13.0, 'happy', 0.8, 126.0,
   'あなたにも、世界中のみなさまにも、無常の精神が、宿りますように。',
   'あなたにも、世界中のみなさまにも、<br><span class="g">無常の精神</span>が<br>宿りますように。',
   'May the spirit of mujo dwell in you,<br>and in everyone in this world.', 58),
@@ -109,7 +117,7 @@ if not os.path.exists('sfx.wav'):
         for i in range(int(dur*R)):
             t=i/R; env=min(1,t/1.5)*min(1,(dur-t)/2.0)
             if n0+i<N: buf[n0+i]+=amp*env*math.sin(2*math.pi*freq*t)
-    tuner(0.4); suzu(24.2); om(37.0, 16.0); suzu(54.2, amp=0.17); suzu(69.2, amp=0.16); om(84.0, 14.0); tuner(92.5, amp=0.24)
+    tuner(0.4); suzu(26.2); om(49.0, 17.0); suzu(66.2, amp=0.17); suzu(81.2, amp=0.16); om(96.0, 18.0, amp=0.04); suzu(112.2, amp=0.15); tuner(126.4, amp=0.24)
     mx=max(abs(v) for v in buf); sc=0.9/mx if mx>0.9 else 1.0
     w=wave.open('sfx.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(R)
     w.writeframes(b''.join(struct.pack('<h',int(max(-1,min(1,v*sc))*32767)) for v in buf)); w.close()
