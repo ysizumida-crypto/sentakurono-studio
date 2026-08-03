@@ -115,7 +115,7 @@ def speech_gate(wavfn, voff):
     sp=[(s+voff,e+voff) for s,e in merged if e-s>=0.1]
     return ('+'.join(f'between(t,{a:.2f},{b:.2f})' for a,b in sp) or '0'), data, r, sw
 
-def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_out=False, window=None):
+def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_out=False, window=None, woff=0.0):
     if os.path.exists(out): return
     frames=round(dur*FPS); vdur=frames/FPS
     gate,_,_,_ = speech_gate(wavfn, voff)
@@ -148,7 +148,7 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     fcf=out.replace('.mp4','.fc.txt'); open(fcf,'w').write(fc)
     inputs_extra = ['-loop','1','-i',f'{AV}/kuronon_happy.png'] if blink else []
     if window:
-        inputs_extra += ['-i', window, '-loop','1','-i', f'{BASEDIR}/nachi/mask.png']
+        inputs_extra += ['-ss', f'{woff:.2f}', '-stream_loop','-1','-i', window, '-loop','1','-i', f'{BASEDIR}/nachi/mask.png']
     r=subprocess.run(['ffmpeg','-y','-ss',f'{bgoff:.2f}','-stream_loop','-1','-i',BG,
         '-loop','1','-i',f'{AV}/kuronon_{expr}.png',
         '-loop','1','-i',f'{AV}/kuronon_mouth_half.png',
@@ -171,16 +171,16 @@ DUR = dict(hook=6.0, harai=16.0, charm=9.0, prayer=12.0, close=6.0)
 VOFF = dict(hook=2.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
 # 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
-encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True, window=f'{BASEDIR}/nachi/falls_hook.mp4')
-encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3, window=f'{BASEDIR}/nachi/falls_harai.mp4')
-encode_seg('segs/close.mp4', f'{S1}/ov_close.png', f'{S1}/close.wav', DUR['close'], 'happy',            VOFF['close'], 5.2, fade_out=True)
+encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=0.0)
+encode_seg('segs/harai.mp4', f'{S1}/ov_harai.png', f'{S1}/harai.wav', DUR['harai'], 'base_transparent', VOFF['harai'], 2.3, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=6.0)
+encode_seg('segs/close.mp4', f'{S1}/ov_close.png', f'{S1}/close.wav', DUR['close'], 'happy',            VOFF['close'], 5.2, fade_out=True, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=43.0)
 # 祈り4種
 for pi,(ptext,pjp,pen) in enumerate(PRAYERS):
     synth(ptext, 0.95, f'segs/prayer{pi}.wav')
     render_overlay(f'segs/ov_prayer{pi}.html', f'segs/ov_prayer{pi}.png',
         fs=74, entop=640, chip='今日の金運祈願 — DAILY FORTUNE PRAYER', jp=pjp, en=pen)
     encode_seg(f'segs/prayer{pi}.mp4', f'segs/ov_prayer{pi}.png', f'segs/prayer{pi}.wav',
-        DUR['prayer'], 'happy', VOFF['prayer'], (3+pi*1.9)%8)
+        DUR['prayer'], 'happy', VOFF['prayer'], (3+pi*1.9)%8, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=31.0)
     print(f'prayer{pi} ok', flush=True)
 
 # ---- 日替わり縁起物+日次合成 ----
@@ -194,7 +194,7 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         jp=f'今日の縁起物<br><span class="g">{cjp}</span>',
         en=cen + f'<div style="margin-top:36px;font-size:150px;font-family:\'Noto Color Emoji\'">{EMOJI[day-1]}</div>')
     encode_seg(f'segs/charm{day:02d}.mp4', f'segs/ov_charm{day:02d}.png', f'segs/charm{day:02d}.wav',
-        DUR['charm'], 'happy', VOFF['charm'], (day*1.7)%8)
+        DUR['charm'], 'happy', VOFF['charm'], (day*1.7)%8, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=22.0)
     pi=(day-1)%4
     final=f'out/kaiun_sep{day:02d}.mp4'
     if not os.path.exists(final):
@@ -219,12 +219,12 @@ for day,cname,cspoken,cjp,cen in CHARMS:
             '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx49.wav',
             '-i',f'{BASEDIR}/nachi/nachi_amb45.wav','-filter_complex',
             f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
-            f"[4:a]volume=0.26,afade=t=in:st=0:d=0.4[amb];"
-            f"[bgm][amb]amix=inputs=2:duration=first:normalize=0[bed];"
-            f"[1:a]asplit[voice][sc];"
-            f"[bed][sc]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bd];"
+            f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.34,afade=t=in:st=0:d=0.4[amb0];"
+            f"[1:a]asplit=3[voice][sc1][sc2];"
+            f"[bgm][sc1]sidechaincompress=threshold=0.015:ratio=8:attack=20:release=500[bgmd];"
+            f"[amb0][sc2]sidechaincompress=threshold=0.02:ratio=2.5:attack=30:release=600[ambd];"
             f"[3:a]volume=0.9[sfx];"
-            f"[voice][bd][sfx]amix=inputs=3:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
+            f"[voice][bgmd][ambd][sfx]amix=inputs=4:duration=first:normalize=0,afade=t=out:st={D-1.5}:d=1.5[a]",
             '-map','0:v','-map','[a]','-c:v','copy','-c:a','aac','-b:a','160k','-shortest',final],
             check=True,capture_output=True)
     print(f'{tag} {cname} ok', flush=True)
