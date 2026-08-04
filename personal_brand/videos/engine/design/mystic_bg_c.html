@@ -1,0 +1,73 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; }
+html,body { width:1920px; height:1080px; overflow:hidden; background:#0B0710; }
+.wrap { position:relative; width:1920px; height:1080px; overflow:hidden;
+  background: radial-gradient(1300px 900px at 50% 120%, #3A2A14 0%, #1E1509 45%, #0F0A05 100%); }
+/* 星々(2層・ゆっくり流れる) */
+.stars, .stars2 { position:absolute; inset:-200px; background-repeat:repeat; }
+.stars {
+  background-image: radial-gradient(2px 2px at 40px 60px, #fff8 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 180px 140px, #fff5 50%, transparent 51%),
+    radial-gradient(2.5px 2.5px at 300px 40px, #F5C54288 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 420px 220px, #fff6 50%, transparent 51%),
+    radial-gradient(2px 2px at 90px 300px, #fff4 50%, transparent 51%);
+  background-size: 480px 360px;
+  animation: drift 60s linear infinite;
+}
+.stars2 {
+  background-image: radial-gradient(1.5px 1.5px at 100px 100px, #fff4 50%, transparent 51%),
+    radial-gradient(2px 2px at 260px 200px, #F5C54266 50%, transparent 51%),
+    radial-gradient(1px 1px at 380px 80px, #fff3 50%, transparent 51%);
+  background-size: 520px 400px;
+  animation: drift 90s linear infinite reverse;
+}
+@keyframes drift { from { transform:translate(0,0);} to { transform:translate(480px,360px);} }
+/* 回転する金の光輪(星座盤風) */
+.ring { position:absolute; left:50%; top:46%; width:1150px; height:1150px; margin:-575px 0 0 -575px;
+  border-radius:50%;
+  border:2px solid rgba(245,197,66,.28);
+  box-shadow: 0 0 80px rgba(245,197,66,.12), inset 0 0 80px rgba(245,197,66,.10);
+  animation: spin 48s linear infinite; }
+.ring::before { content:""; position:absolute; inset:38px; border-radius:50%;
+  border:1px dashed rgba(245,197,66,.35); }
+.ring::after { content:"✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧"; position:absolute; left:50%; top:-26px;
+  transform:translateX(-50%); color:#F5C542; font-size:34px; letter-spacing:74px; opacity:.7;
+  white-space:nowrap; }
+@keyframes spin { from{ transform:rotate(0);} to{ transform:rotate(360deg);} }
+.ring2 { position:absolute; left:50%; top:46%; width:820px; height:820px; margin:-410px 0 0 -410px;
+  border-radius:50%; border:1.5px solid rgba(245,197,66,.35);
+  animation: spin 32s linear infinite reverse; }
+/* 月蝕のような日輪 */
+.eclipse { position:absolute; left:50%; top:46%; width:430px; height:430px; margin:-215px 0 0 -215px;
+  border-radius:50%; background:radial-gradient(circle,#F7CE58 0%,#F5C542 55%,#B8860B 100%);
+  box-shadow: 0 0 90px 18px rgba(245,197,66,.55), 0 0 220px 60px rgba(245,197,66,.18);
+  animation: breathe 8s ease-in-out infinite; }
+@keyframes breathe {
+  0%,100% { box-shadow:0 0 90px 18px rgba(245,197,66,.55), 0 0 220px 60px rgba(245,197,66,.18);}
+  50% { box-shadow:0 0 120px 30px rgba(245,197,66,.75), 0 0 280px 90px rgba(245,197,66,.26);} }
+/* 舞い上がる金の粒子 */
+.p { position:absolute; bottom:-30px; width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle,#FFE95C,#F5C542 60%,transparent 70%);
+  filter:blur(.5px); animation: rise linear infinite; }
+@keyframes rise { from { transform:translateY(0) scale(1); opacity:0; }
+  8% { opacity:.9; } to { transform:translateY(-1180px) scale(.4); opacity:0; } }
+/* 霧 */
+.fog { position:absolute; left:-400px; right:-400px; height:420px; bottom:-80px;
+  background:radial-gradient(60% 100% at 50% 100%, rgba(160,130,200,.20), transparent 70%);
+  filter:blur(30px); animation: fogmove 24s ease-in-out infinite alternate; }
+@keyframes fogmove { from{ transform:translateX(-160px);} to{ transform:translateX(160px);} }
+</style></head><body><div class="wrap">
+<div class="stars"></div><div class="stars2"></div>
+<div class="ring"></div><div class="ring2"></div>
+<div class="eclipse"></div>
+<div class="fog"></div>
+<script>
+for (let i=0;i<40;i++){
+  const p=document.createElement('div'); p.className='p';
+  p.style.left=(30+Math.random()*1860)+'px';
+  p.style.animationDuration=(9+Math.random()*9)+'s';
+  p.style.animationDelay=(-Math.random()*18)+'s';
+  const s=.5+Math.random()*1.6; p.style.width=10*s+'px'; p.style.height=10*s+'px';
+  document.querySelector('.wrap').appendChild(p);
+}
+</script></div></body></html>

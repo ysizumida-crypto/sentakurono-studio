@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { margin:0; padding:0; }
+html,body { width:1080px; height:1920px; overflow:hidden; background:#070510; }
+.wrap { position:relative; width:1080px; height:1920px; overflow:hidden;
+  background: radial-gradient(900px 1400px at 50% 110%, #131029 0%, #0C0919 48%, #070510 100%); }
+/* 星(少なく・静かに) */
+.stars { position:absolute; inset:-200px; background-repeat:repeat;
+  background-image:
+    radial-gradient(1.5px 1.5px at 140px 180px, #EDEAF766 50%, transparent 51%),
+    radial-gradient(2px 2px at 420px 90px, #F5C54255 50%, transparent 51%),
+    radial-gradient(1px 1px at 300px 380px, #EDEAF744 50%, transparent 51%);
+  background-size: 560px 470px;
+  animation: drift 90s linear infinite; }
+@keyframes drift { from { transform:translate(0,0);} to { transform:translate(560px,470px);} }
+/* 光輪 */
+.ring { position:absolute; left:50%; top:30%; width:950px; height:950px; margin:-475px 0 0 -475px;
+  border-radius:50%; border:1.5px solid rgba(245,197,66,.26);
+  animation: spin 64s linear infinite; }
+.ring::before { content:""; position:absolute; inset:34px; border-radius:50%;
+  border:1px dashed rgba(245,197,66,.30); }
+@keyframes spin { from{ transform:rotate(0);} to{ transform:rotate(360deg);} }
+/* 黒い日輪 */
+.halo { position:absolute; left:50%; top:30%; width:1150px; height:1150px; margin:-575px 0 0 -575px;
+  border-radius:50%; z-index:1;
+  background: radial-gradient(circle, rgba(245,197,66,.68) 15%, rgba(245,197,66,.28) 31%, transparent 58%);
+  animation: breathe 8s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { opacity:.75; transform:scale(1);} 50% { opacity:1; transform:scale(1.05);} }
+.eclipse { position:absolute; left:50%; top:30%; width:400px; height:400px; margin:-200px 0 0 -200px;
+  border-radius:50%; background:#070510; z-index:2; }
+/* 八咫烏の影(蝕の中で息づく) */
+.yata { position:absolute; left:50%; top:30%; width:300px; height:300px; margin:-150px 0 0 -150px;
+  z-index:3; animation: appear 8s ease-in-out infinite; }
+@keyframes appear { 0%,5%,95%,100% { opacity:0; } 22%,78% { opacity:.7; } }
+/* 注連縄と紙垂 */
+/* 靄 */
+.mist { position:absolute; left:-300px; right:-300px; height:340px;
+  background:radial-gradient(58% 100% at 50% 50%, rgba(160,150,200,.13), transparent 70%);
+  filter:blur(34px); }
+.mist.m1 { top:800px;  animation: fog1 26s ease-in-out infinite alternate; }
+.mist.m2 { top:1150px; animation: fog1 34s ease-in-out infinite alternate-reverse; }
+@keyframes fog1 { from{ transform:translateX(-180px);} to{ transform:translateX(180px);} }
+/* 灯明 */
+.lamp { position:absolute; bottom:-60px; width:420px; height:420px; border-radius:50%;
+  background:radial-gradient(circle, rgba(140,54,38,.45), transparent 65%);
+  filter:blur(14px); }
+.lamp.l1 { left:-140px; animation: flick 8s ease-in-out infinite; }
+.lamp.l2 { right:-140px; animation: flick 8s ease-in-out infinite reverse; }
+@keyframes flick {
+  0%,100% { opacity:.5; } 23% { opacity:.86; } 47% { opacity:.6; } 71% { opacity:.94; } }
+/* 金の粒子 */
+.p { position:absolute; bottom:-30px; width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle,#FFE95C,#F5C542 60%,transparent 70%);
+  filter:blur(.5px); animation: rise linear infinite; }
+@keyframes rise { from { transform:translateY(0) scale(1); opacity:0; }
+  8% { opacity:.9; } to { transform:translateY(-2020px) scale(.4); opacity:0; } }
+</style></head><body><div class="wrap">
+<div class="stars"></div>
+<div class="ring"></div>
+<div class="halo"></div>
+<div class="eclipse"></div>
+<div class="yata">
+<svg viewBox="0 0 300 300" style="width:100%;height:100%">
+  <g fill="none" stroke="#F5C542" stroke-width="4" stroke-linecap="round" opacity="0.9">
+    <!-- 胴と頭 -->
+    <path d="M150 96 C120 96 102 122 104 150 C106 180 128 198 150 200 C176 198 196 178 196 150 C196 120 178 96 150 96 Z"/>
+    <path d="M150 96 C146 82 152 70 166 64 C176 60 186 62 192 68 L178 74 L188 82 C178 92 162 92 150 96 Z"/>
+    <!-- 左右の翼 -->
+    <path d="M108 138 C78 120 54 118 30 132 C52 138 62 146 70 160 C86 154 98 148 108 152"/>
+    <path d="M192 138 C222 120 246 118 270 132 C248 138 238 146 230 160 C214 154 202 148 192 152"/>
+    <!-- 尾羽 -->
+    <path d="M138 198 L128 232 M150 200 L150 238 M162 198 L172 232"/>
+    <!-- 三本の脚 -->
+    <path d="M132 200 L124 250 M150 202 L150 254 M168 200 L176 250"/>
+  </g>
+</svg></div>
+<div class="mist m1"></div><div class="mist m2"></div>
+<div class="lamp l1"></div><div class="lamp l2"></div>
+<script>
+// 粒子
+for (let i=0;i<30;i++){
+  const p=document.createElement('div'); p.className='p';
+  p.style.left=(20+((i*137)%1040))+'px';
+  p.style.animationDuration=(9+((i*53)%90)/10)+'s';
+  p.style.animationDelay=(-((i*71)%180)/10)+'s';
+  const s=.5+((i*29)%16)/10; p.style.width=10*s+'px'; p.style.height=10*s+'px';
+  document.querySelector('.wrap').appendChild(p);
+}
+</script></div></body></html>
