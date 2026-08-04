@@ -5,7 +5,7 @@ import json, urllib.request, urllib.parse, os, wave, audioop, subprocess, warnin
 warnings.filterwarnings('ignore')
 os.environ['NO_PROXY'] = '127.0.0.1'
 BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
-WINDUR = 12.0   # 那智の滝ループ(絶対固定版)の長さ
+WINDUR = 3.6   # 那智の滝ループ(絶対固定版)の長さ
 os.chdir(f'{BASEDIR}/kaiun_sep')
 AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
 BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'

@@ -23,6 +23,8 @@
 - **採用**: 滝の落差全体を柱として通す画(元座標 x60,y100 の 950x1010)。楕円の天から地へ銀の水が貫き、蝕が滝への入口になる。小さく表示されても「滝」と一瞬で読める
 - **不採用**: 御幣・注連縄を主役にした画。信仰の場としては雄弁だが、640x680 では金の御幣が数十pxにしかならず読めない。落差の迫力も失う
 - **色調**: 補正しない。**実録そのままの色を使う**(社長指示 2026-08-03)。滝の白、森の緑、岩の色は撮れたとおりに出す
+- **速度**: 等速。スロー再生は禁止。`setpts` で伸ばすとコマが複製され、水が 10Hz でカクつく(1.5倍で全体の33%が複製コマになる)。「実物そのまま」は速度にも及ぶ
+- **マスク**: 完全不透明の範囲を広くとる(600x644 の楕円 + blur 11 で 57.8%)。柔らかいマスクは大半の画素を暗い背景と混ぜてしまい、色を付けたように見える
 - **テロップの可読性**: 実写を沈めて文字を読ませるのは禁止。文字側に濃い縁取り(`text-shadow` に 3px の四方影+近距離グロー)を入れて解決する。祝詞が水に溶けて読めなくなるのを防ぐための必須処理
 
 ## 現行の加工手順
@@ -40,18 +42,16 @@ python3 $SK/lock_footage.py seg.mp4 locked.mp4 --crop 60 100 950 1010 --order 3
 # 3. 実測(平均1px未満で合格)
 python3 $SK/measure_shake.py locked.mp4
 
-# 4. 1.5倍にゆっくりするだけ(色補正なし)。順再生+逆再生で継ぎ目のないループにする
-ffmpeg -y -i locked.mp4 -filter:v "setpts=1.5*PTS,scale=640:680" -an -c:v libx264 -preset slow -crf 15 -pix_fmt yuv420p fwd.mp4
-ffmpeg -y -i fwd.mp4 -vf reverse -an -c:v libx264 -preset slow -crf 15 -pix_fmt yuv420p rev.mp4
-printf "file 'fwd.mp4'\nfile 'rev.mp4'\n" > cc.txt
-ffmpeg -y -f concat -safe 0 -i cc.txt -c copy falls_loop.mp4
+# 4. 等速のまま、尾と頭を溶かして輪にする(逆再生は使わない)
+ffmpeg -y -i locked.mp4 -vf scale=640:680 -an -r 30 -c:v libx264 -preset slow -crf 14 -pix_fmt yuv420p src.mp4
+python3 make_loop.py src.mp4 falls_loop.mp4 0.4
 
 # 5. 滝の実音を自己クロスフェードで継ぎ目なく49秒まで伸ばす
 ffmpeg -y -i IMG_0271.mov -vn -ac 1 -ar 44100 -c:a pcm_s16le raw.wav
 for i in 1 2 3; do ffmpeg -y -i in.wav -i in.wav -filter_complex "[0][1]acrossfade=d=1:c1=tri:c2=tri" out.wav; done
 ```
 
-**成果物**: `falls_loop.mp4`(640x680・**12.0秒**)/ `nachi_amb.wav`(49.0秒)
+**成果物**: `falls_loop.mp4`(640x680・**3.6秒**)/ `nachi_amb.wav`(49.0秒)
 
 ## 実測値
 
@@ -67,9 +67,9 @@ for i in 1 2 3; do ffmpeg -y -i in.wav -i in.wav -filter_complex "[0][1]acrossfa
 
 | ファイル | 定数 |
 |---|---|
-| `personal_brand/shorts/september_batch/generator.py` | `WINDUR = 12.0` |
-| `personal_brand/shorts/specials/build_sayonara.py` | `woff % 12.0` |
-| `personal_brand/videos/engine/lf_engine.py` | `% 12.0`(2箇所+カット割り) |
+| `personal_brand/shorts/september_batch/generator.py` | `WINDUR = 3.6` |
+| `personal_brand/shorts/specials/build_sayonara.py` | `% 3.6` |
+| `personal_brand/videos/engine/lf_engine.py` | `% 3.6`(2箇所+カット割り) |
 
 ## 音の扱い
 
@@ -81,3 +81,26 @@ IMG_0271 の音は拝所で録れているため旧素材より 3.4dB 大きく�
 - 納品時に `loudnorm=I=-14:TP=-1.5:LRA=11` で YouTube 標準ラウドネスに正規化する
 
 概要欄に「音 — 熊野・那智の滝(実録)」のクレジットを必ず入れる。
+
+## 輪の作り方(2026-08-03 全面見直し)
+
+社長から「繋いであることが分かる、画面が動く」と3度指摘された。原因は**2つ重なっていた**。
+
+1. **順再生+逆再生(パリンドローム)**: 折り返しで水が逆流し、継ぎ目の位置が分かる
+2. **1.5倍スロー**: `setpts` はコマを複製するだけなので、全体の33%が複製コマになり 10Hz でカクつく
+
+どちらも実測では「画の跳び」として出てこない(位置は動いていない)。**コマの重複率**と**水の流れる向き**で見るしかない。
+
+現行の作り方は `make_loop.py`(スキル `stabilize-footage` に同梱):
+
+- 等速のまま使う
+- 尾 0.4 秒と頭 0.4 秒を、透過率 0→1 を端点まで動かして溶かす
+- ffmpeg の `xfade` は透過率が最後のコマで 1.0 に届かず尾が残る。その残りが輪の境目で消えて跳ねるので使わない
+
+**実測**: 素材のコマ間変化 中央値1.49 / 最大3.03。輪の境目 **3.35**(溶かさない繋ぎだと 8.55)。複製コマ **0**。
+
+水は決して同じ形に戻らないため、**溶かさずに繋げる点は存在しない**(総当たりで探して最小 8.55)。クロスフェードは必須。
+
+## 背景の注連縄・紙垂(2026-08-03 撤去)
+
+縦型背景の上部にあった注連縄と紙垂は撤去した(社長指示)。神域であることは**実写の滝そのもの**が示すため、記号としての装飾は不要という判断。

@@ -189,7 +189,7 @@ for idx,(key,_dur_unused,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
     wi=5
     if blink:
         inputs += ['-loop','1','-i',f'{AV}/kuronon_happy.png']; wi=6
-    inputs += ['-ss',f'{STARTS[idx] % 12.0:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+    inputs += ['-ss',f'{STARTS[idx] % 3.6:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
     blink_tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
                   f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
                   f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"
