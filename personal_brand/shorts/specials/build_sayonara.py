@@ -8,6 +8,7 @@ os.chdir(f'{BASEDIR}/sayonara')
 AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
 BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
 WIN = f'{BASEDIR}/nachi/falls_loop.mp4'
+WINLONG = f'{BASEDIR}/nachi/falls_long.mp4'
 MASK = f'{BASEDIR}/nachi/mask.png'
 FPS = 30
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -86,11 +87,11 @@ OV = '''<!doctype html><html><head><meta charset="utf-8"><style>
  color:#0B0710;background:#F5C542;padding:10px 28px}}
 .jp{{position:absolute;left:0;width:1080px;top:262px;text-align:center;
  font-family:"Noto Serif JP",serif;font-weight:900;font-size:{fs}px;line-height:1.55;color:#FBF3E4;
- text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 0 34px rgba(245,197,66,.55),0 4px 26px rgba(0,0,0,.9)}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 4px rgba(8,5,12,.95),0 0 14px rgba(245,197,66,.45),0 2px 6px rgba(0,0,0,.9)}}
 .jp .g{{color:#F5C542}}
 .en{{position:absolute;left:0;width:1080px;top:660px;text-align:center;font-family:"Noto Sans JP";
  font-weight:900;font-size:40px;line-height:1.55;color:#FBF3E4;opacity:.93;
- text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 3px 18px rgba(0,0,0,.95)}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 4px rgba(8,5,12,.95),0 2px 6px rgba(0,0,0,.95)}}
 .d{{position:absolute;left:0;width:1080px;bottom:30px;text-align:center;font-family:"Noto Sans JP";
  font-weight:700;font-size:26px;color:#FBF3E4;opacity:.55}}
 </style></head><body>
@@ -189,7 +190,7 @@ for idx,(key,_dur_unused,expr,voff,woff,spoken,jp,en,fs) in enumerate(CUTS):
     wi=5
     if blink:
         inputs += ['-loop','1','-i',f'{AV}/kuronon_happy.png']; wi=6
-    inputs += ['-ss',f'{STARTS[idx] % 3.6:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+    inputs += ['-ss',f'{STARTS[idx] % 3.6:.2f}','-i',WINLONG,'-loop','1','-i',MASK]
     blink_tail = (f"[5:v]crop=390:185:435:425,scale={EW}:{EH}[eyes];"
                   f"[v3][eyes]overlay={EX}:y='{EY}+{bob}':enable='lt(mod(t+2.6,3.2),0.14)+lt(mod(t+1.05,5.1),0.12)'[v4];"
                   f"[v4][txt]overlay=0:0{fades}[vout]") if blink else f"[v3][txt]overlay=0:0{fades}[vout]"

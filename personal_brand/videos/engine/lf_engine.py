@@ -8,6 +8,7 @@ BG = {'a': f'{BASEDIR}/mystic/mystic_bg_loop.mp4',
       'b': f'{BASEDIR}/mystic/mystic_bg_b.mp4',
       'c': f'{BASEDIR}/mystic/mystic_bg_c.mp4'}
 WIN = f'{BASEDIR}/nachi/falls_loop.mp4'
+WINLONG = f'{BASEDIR}/nachi/falls_long.mp4'
 MASK = f'{BASEDIR}/nachi/mask.png'
 HS = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell'
 FPS = 30
@@ -64,7 +65,7 @@ OV_TPL = '''<!doctype html><html><head><meta charset="utf-8"><style>
  letter-spacing:.12em;color:#0B0710;background:#F5C542;padding:8px 22px;opacity:.92}}
 .t{{position:absolute;left:0;width:1920px;top:{top}px;text-align:center;
  font-family:"Noto Serif JP",serif;font-weight:900;font-size:{fs}px;line-height:1.5;color:#FBF3E4;
- text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 12px rgba(8,5,12,.98),0 0 26px rgba(8,5,12,.72),0 0 30px rgba(245,197,66,.5),0 4px 24px rgba(0,0,0,.8);letter-spacing:.02em}}
+ text-shadow:-3px -3px 0 rgba(8,5,12,.92),3px -3px 0 rgba(8,5,12,.92),-3px 3px 0 rgba(8,5,12,.92),3px 3px 0 rgba(8,5,12,.92),0 0 4px rgba(8,5,12,.95),0 0 14px rgba(245,197,66,.45),0 2px 6px rgba(0,0,0,.8);letter-spacing:.02em}}
 .t .g{{color:#F5C542}}
 .d{{position:absolute;left:0;width:1920px;bottom:34px;text-align:center;font-family:"Noto Sans JP";
  font-weight:700;font-size:27px;color:#FBF3E4;opacity:.6}}
@@ -101,7 +102,7 @@ def encode_cut(out, bgkey, ovpng, expr, gate, frames, vdur, bgoff, fade_in, fade
             inputs += ['-loop','1','-i',f'{AV}/kuronon_happy.png']; n = 6
         wi = n
         if window:
-            inputs += ['-ss',f'{woff % 3.6:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+            inputs += ['-ss',f'{woff % 3.6:.2f}','-i',WINLONG,'-loop','1','-i',MASK]
         whead = (f"[{wi}:v]setpts=PTS-STARTPTS,format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay={WOX}:{WOY}[bgw];") if window else ''
         src = '[bgw]' if window else '[0:v]'
@@ -121,7 +122,7 @@ def encode_cut(out, bgkey, ovpng, expr, gate, frames, vdur, bgoff, fade_in, fade
         inputs += ['-loop','1','-i',ovpng]
         wi = 2
         if window:
-            inputs += ['-ss',f'{woff % 3.6:.2f}','-stream_loop','-1','-i',WIN,'-loop','1','-i',MASK]
+            inputs += ['-ss',f'{woff % 3.6:.2f}','-i',WINLONG,'-loop','1','-i',MASK]
         whead = (f"[{wi}:v]setpts=PTS-STARTPTS,format=rgba[wj];[{wi+1}:v]format=gray[mk];[wj][mk]alphamerge[win];"
                  f"[0:v][win]overlay={WOX}:{WOY}[bgw];") if window else ''
         src = '[bgw]' if window else '[0:v]'
