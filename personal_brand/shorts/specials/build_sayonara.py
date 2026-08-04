@@ -2,10 +2,12 @@
 import json, urllib.request, urllib.parse, os, wave, audioop, subprocess, warnings, math, random, struct
 warnings.filterwarnings('ignore')
 os.environ['NO_PROXY'] = '127.0.0.1'
-BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
+import os as _os
+# 作業場所は毎回変わる。KURONON_WORK で受け取り、無ければ従来の場所を使う。
+BASEDIR = _os.environ.get('KURONON_WORK', '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad')
 os.makedirs(f'{BASEDIR}/sayonara', exist_ok=True)
 os.chdir(f'{BASEDIR}/sayonara')
-AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
+AV = _os.environ.get('KURONON_REPO', '/home/user/sentakurono-studio') + '/personal_brand/videos/avatar/production'
 BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
 WIN = f'{BASEDIR}/nachi/falls_loop.mp4'
 WINLONG = f'{BASEDIR}/nachi/falls_long.mp4'
@@ -216,7 +218,7 @@ for c in audio: vw.writeframes(c)
 vw.close()
 open('cc.txt','w').write('\n'.join(f"file '{s}'" for s in segs))
 subprocess.run(['ffmpeg','-y','-f','concat','-safe','0','-i','cc.txt','-c','copy','v.mp4'],check=True,capture_output=True)
-subprocess.run(['ffmpeg','-y','-i','v.mp4','-i','voice.wav','-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3',
+subprocess.run(['ffmpeg','-y','-i','v.mp4','-i','voice.wav','-stream_loop','-1','-i',f'{BASEDIR}/bgm.mp3',
   '-i','sfx.wav','-i',f'{BASEDIR}/nachi/nachi_amb.wav','-filter_complex',
   f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
   f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.55,afade=t=in:st=0:d=0.4[amb0];"

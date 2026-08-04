@@ -2,8 +2,10 @@
 import json, urllib.request, urllib.parse, os, wave, audioop, subprocess, warnings, math, random, struct, re
 warnings.filterwarnings('ignore')
 os.environ['NO_PROXY'] = '127.0.0.1'
-BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
-AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
+import os as _os
+# 作業場所は毎回変わる。KURONON_WORK で受け取り、無ければ従来の場所を使う。
+BASEDIR = _os.environ.get('KURONON_WORK', '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad')
+AV = _os.environ.get('KURONON_REPO', '/home/user/sentakurono-studio') + '/personal_brand/videos/avatar/production'
 BG = {'a': f'{BASEDIR}/mystic/mystic_bg_loop.mp4',
       'b': f'{BASEDIR}/mystic/mystic_bg_b.mp4',
       'c': f'{BASEDIR}/mystic/mystic_bg_c.mp4'}
@@ -208,7 +210,7 @@ def build(ep, header, script_path, section_texts, SPEC, workdir, out_name, sfx_m
     w.writeframes(b''.join(struct.pack('<h',int(max(-1,min(1,v*sc))*32767)) for v in buf)); w.close()
     D=total
     subprocess.run(['ffmpeg','-y','-i','video_silent.mp4','-i','voice_full.wav',
-        '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i','sfx.wav',
+        '-stream_loop','-1','-i',f'{BASEDIR}/bgm.mp3','-i','sfx.wav',
         '-i',f'{BASEDIR}/nachi/nachi_amb.wav','-filter_complex',
         f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=0:d=2[bgm];"
         f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.36,afade=t=in:st=0:d=0.5[amb0];"

@@ -4,10 +4,55 @@
 import json, urllib.request, urllib.parse, os, wave, audioop, subprocess, warnings, sys
 warnings.filterwarnings('ignore')
 os.environ['NO_PROXY'] = '127.0.0.1'
-BASEDIR = '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad'
+import os as _os
+# 作業場所は毎回変わる。KURONON_WORK で受け取り、無ければ従来の場所を使う。
+BASEDIR = _os.environ.get('KURONON_WORK', '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad')
 WINDUR = 3.6   # 那智の滝ループ(絶対固定版)の長さ
+os.makedirs(f'{BASEDIR}/kaiun_sep/segs', exist_ok=True)
+os.makedirs(f'{BASEDIR}/short01', exist_ok=True)
+
+# 固定部分のナレーションはリポジトリの正本を使う。
+# 読み上げ文の原文が失われているため合成し直せない(2026-08-04 判明)。
+# 9月分と声を揃えるためにも、ここは作り直さず現物を運ぶ。
+import shutil as _sh
+_FIXED = _os.environ.get('KURONON_REPO', '/home/user/sentakurono-studio') \
+         + '/personal_brand/shorts/september_batch/fixed_narration'
+for _n in ('hook','harai','norito','harai_rest','close'):
+    _dst = f'{BASEDIR}/short01/{_n}.wav'
+    if not os.path.exists(_dst) and os.path.exists(f'{_FIXED}/{_n}.wav'):
+        _sh.copy(f'{_FIXED}/{_n}.wav', _dst)
+
+# 儀式の効果音(49秒)。9月分と同一の音になるよう、乱数の種まで固定してある。
+def _build_sfx(path, total=49.0):
+    if os.path.exists(path): return
+    import math, random, struct
+    random.seed(7); R = 44100; N = int(R * total); buf = [0.0] * N
+    def tuner(t0, amp=0.30, freq=4096.0, dur=3.5):     # 開始・終了の澄んだ音
+        n0 = int(t0 * R)
+        for i in range(int(dur * R)):
+            t = i / R; env = math.exp(-t * 1.9) * min(1, t * 400)
+            v = amp * env * (math.sin(2*math.pi*freq*t) + 0.35*math.sin(2*math.pi*(freq+2.4)*t)) / 1.35
+            if n0 + i < N: buf[n0+i] += v
+    def suzu(t0, amp=0.20, dur=2.2):                    # 鈴
+        n0 = int(t0 * R); parts = [(2780,1.0),(3390,.8),(4230,.9),(5160,.6),(6340,.45),(7480,.3)]
+        ph = [random.random() * 6.28 for _ in parts]
+        for i in range(int(dur * R)):
+            t = i / R; env = math.exp(-t*2.6) * min(1, t*300)
+            trem = .72 + .28 * math.sin(2*math.pi*9.5*t)
+            v = sum(a * math.sin(2*math.pi*f*t + pz) for (f,a), pz in zip(parts, ph))
+            if n0 + i < N: buf[n0+i] += v * amp * env * trem / 3.6
+    def om(t0, dur, amp=0.045, freq=136.1):             # 低い持続音
+        n0 = int(t0 * R)
+        for i in range(int(dur * R)):
+            t = i / R; env = min(1, t/1.5) * min(1, (dur-t)/2.0)
+            if n0 + i < N: buf[n0+i] += amp * env * math.sin(2*math.pi*freq*t)
+    tuner(0.3); om(6.0, 16.0); suzu(22.2); suzu(31.2, amp=0.17); tuner(43.2, amp=0.24)
+    mx = max(abs(v) for v in buf); sc = 0.9/mx if mx > 0.9 else 1.0
+    w = wave.open(path, 'wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(R)
+    w.writeframes(b''.join(struct.pack('<h', int(max(-1, min(1, v*sc)) * 32767)) for v in buf)); w.close()
+_build_sfx(f'{BASEDIR}/short01/sfx49.wav')
 os.chdir(f'{BASEDIR}/kaiun_sep')
-AV = '/home/user/sentakurono-studio/personal_brand/videos/avatar/production'
+AV = _os.environ.get('KURONON_REPO', '/home/user/sentakurono-studio') + '/personal_brand/videos/avatar/production'
 BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
 S1 = f'{BASEDIR}/short01'
 FPS = 30
@@ -217,7 +262,7 @@ for day,cname,cspoken,cjp,cen in CHARMS:
         vw.close()
         D=sum(DUR.values())
         subprocess.run(['ffmpeg','-y','-i',f'segs/v{day:02d}.mp4','-i',f'segs/voice{day:02d}.wav',
-            '-stream_loop','-1','-i',f'{BASEDIR}/bgm_test.mp3','-i',f'{S1}/sfx49.wav',
+            '-stream_loop','-1','-i',f'{BASEDIR}/bgm.mp3','-i',f'{S1}/sfx49.wav',
             '-i',f'{BASEDIR}/nachi/nachi_amb.wav','-filter_complex',
             f"[2:a]atrim=0:{D},volume=0.15,afade=t=in:st=2.2:d=2.5[bgm];"
             f"[4:a]aloop=loop=-1:size=2200000,atrim=0:{D},volume=0.55,afade=t=in:st=0:d=0.4[amb0];"
