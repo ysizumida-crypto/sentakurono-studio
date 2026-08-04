@@ -24,6 +24,12 @@
       "sourceType": "github",
       "skillPath": "skills/productivity/grilling/SKILL.md",
       "computedHash": "368d3dd7251247c69f3656d93dc83c8f1577792eacac2111f1e7981db2ece49b"
+    },
+    "youtube-clipper": {
+      "source": "op7418/youtube-clipper-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "73b6412584e9eb75485f096734b6742cb1d56e22bffd8907b17cc877e243d09b"
     }
   }
 }
