@@ -24,7 +24,9 @@ LONGFORM = [
     ('a02_where_to_find', '2026-08-12', None),
     ('a03_reading_deals', '2026-08-19', None),
 ]
-JST_HOUR = 21           # ショート・本編とも 21:00 に揃える
+JST_HOUR = 15           # 公開時刻。社長指示で 21:00 から 15:00 へ変更(2026-08-05)
+#   時刻は動画に焼き込まれていない(焼き込みは日付だけ)。変えるときはこの定数と
+#   下の概要欄の文面の両方を直すこと。片方だけ直すと、説明と実際の配信時刻がずれる。
 BATCH = 7               # 一度に予約する本数(1回15分ほど)
 
 
@@ -54,7 +56,7 @@ def shorts_desc():
     _, d = longform('a01_why_buying')
     voice = re.search(r'^.*VOICEVOX:.*$', d, re.M).group(0).strip()
     bgm = d[d.index('▼BGM'):].split('\n\n')[0]
-    return f'''毎晩21時、導きの八咫烏くろのんが、あなたの金運を祓い清めます。
+    return f'''毎日{JST_HOUR}時、導きの八咫烏くろのんが、あなたの金運を祓い清めます。
 
 祓い給え、清め給え、守り給い、幸え給え。
 
@@ -68,7 +70,7 @@ def shorts_desc():
 {bgm}
 
 ---
-Every night at 21:00 JST, Kuronon — the guiding three-legged sun crow of Japanese myth — purifies your money luck with the fourfold Shinto prayer: purify, cleanse, protect, and bless. Entertainment only. Narration is AI-generated (VOICEVOX: Meimei Himari).
+Every day at {JST_HOUR}:00 JST, Kuronon — the guiding three-legged sun crow of Japanese myth — purifies your money luck with the fourfold Shinto prayer: purify, cleanse, protect, and bless. Entertainment only. Narration is AI-generated (VOICEVOX: Meimei Himari).
 
 May the sun crow guide your fortune today.'''
 
@@ -78,7 +80,7 @@ def build(start, days):
     end = start + dt.timedelta(days=days - 1)
     add(f'# 予約の手順書({start:%-m/%-d}〜{end:%-m/%-d})', '',
         '**毎日アップする必要はありません。** YouTube の「予約」に入れておけば、',
-        f'あとは毎晩 {JST_HOUR}:00 に自動で公開されます。社長の作業は週1回・15分だけです。', '',
+        f'あとは毎日 {JST_HOUR}:00 に自動で公開されます。社長の作業は週1回・15分だけです。', '',
         '> この手順書は生成器から機械で作っています。手で書き直さないでください',
         '> (手書き版で、30本の縁起物名が全部落ちる事故が起きました)。', '')
 

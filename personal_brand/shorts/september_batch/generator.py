@@ -242,6 +242,13 @@ for pi,(ptext,pjp,pen) in enumerate(PRAYERS):
 
 # ---- 日替わり縁起物+日次合成 ----
 os.makedirs('out', exist_ok=True)
+# 一部だけ作り直したいとき: KURONON_DAYS=1-7 のように範囲で絞る(検算用)
+_sel = _os.environ.get('KURONON_DAYS')
+if _sel:
+    _a, _, _b = _sel.partition('-')
+    _lo, _hi = int(_a), int(_b or _a)
+    CHARMS = [c for c in CHARMS if _lo <= c[0] <= _hi]
+
 for day,cname,cspoken,cjp,cen in CHARMS:
     tag=f'day{day:02d}'
     synth(cspoken, 1.1, f'segs/charm{day:02d}.wav')
@@ -285,4 +292,4 @@ for day,cname,cspoken,cjp,cen in CHARMS:
             '-map','0:v','-map','[a]','-c:v','copy','-c:a','aac','-b:a','160k','-shortest',final],
             check=True,capture_output=True)
     print(f'{tag} {cname} ok', flush=True)
-print('ALL 30 DONE')
+print(f'DONE {len(CHARMS)}本')

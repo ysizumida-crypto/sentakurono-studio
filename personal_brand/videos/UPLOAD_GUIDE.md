@@ -1,7 +1,7 @@
 # 予約の手順書(8/6〜9/4)
 
 **毎日アップする必要はありません。** YouTube の「予約」に入れておけば、
-あとは毎晩 21:00 に自動で公開されます。社長の作業は週1回・15分だけです。
+あとは毎日 15:00 に自動で公開されます。社長の作業は週1回・15分だけです。
 
 > この手順書は生成器から機械で作っています。手で書き直さないでください
 > (手書き版で、30本の縁起物名が全部落ちる事故が起きました)。
@@ -14,7 +14,7 @@
 4. **説明**を貼る(次の共通文。30本すべて同じ)
 5. **「視聴者」→「いいえ、子ども向けではありません」**
 6. **AI音声の開示を「はい」**(合成音声のため必須)
-7. **「公開設定」→「スケジュール設定」→ ファイル名の日付の 21:00**
+7. **「公開設定」→「スケジュール設定」→ ファイル名の日付の 15:00**
 8. アップロード
 
 > **6番が見つからないとき**: 項目名はアプリの版で変わります。
@@ -25,7 +25,7 @@
 ## ショート共通の説明文
 
 ```
-毎晩21時、導きの八咫烏くろのんが、あなたの金運を祓い清めます。
+毎日15時、導きの八咫烏くろのんが、あなたの金運を祓い清めます。
 
 祓い給え、清め給え、守り給い、幸え給え。
 
@@ -42,7 +42,7 @@ Licensed under Creative Commons: By Attribution 4.0
 https://creativecommons.org/licenses/by/4.0/
 
 ---
-Every night at 21:00 JST, Kuronon — the guiding three-legged sun crow of Japanese myth — purifies your money luck with the fourfold Shinto prayer: purify, cleanse, protect, and bless. Entertainment only. Narration is AI-generated (VOICEVOX: Meimei Himari).
+Every day at 15:00 JST, Kuronon — the guiding three-legged sun crow of Japanese myth — purifies your money luck with the fourfold Shinto prayer: purify, cleanse, protect, and bless. Entertainment only. Narration is AI-generated (VOICEVOX: Meimei Himari).
 
 May the sun crow guide your fortune today.
 ```
@@ -53,43 +53,43 @@ May the sun crow guide your fortune today.
 
 ### 8/6〜8/12(7本)
 
-**8/6 21:00 — `kaiun_0806.mp4`**
+**8/6 15:00 — `kaiun_0806.mp4`**
 
 ```
 8月6日の金運祈願|四つ葉のクローバー【くろのん】#Shorts
 ```
 
-**8/7 21:00 — `kaiun_0807.mp4`**
+**8/7 15:00 — `kaiun_0807.mp4`**
 
 ```
 8月7日の金運祈願|馬蹄【くろのん】#Shorts
 ```
 
-**8/8 21:00 — `kaiun_0808.mp4`**
+**8/8 15:00 — `kaiun_0808.mp4`**
 
 ```
 8月8日の金運祈願|てんとう虫【くろのん】#Shorts
 ```
 
-**8/9 21:00 — `kaiun_0809.mp4`**
+**8/9 15:00 — `kaiun_0809.mp4`**
 
 ```
 8月9日の金運祈願|招き猫【くろのん】#Shorts
 ```
 
-**8/10 21:00 — `kaiun_0810.mp4`**
+**8/10 15:00 — `kaiun_0810.mp4`**
 
 ```
 8月10日の金運祈願|五帝銭【くろのん】#Shorts
 ```
 
-**8/11 21:00 — `kaiun_0811.mp4`**
+**8/11 15:00 — `kaiun_0811.mp4`**
 
 ```
 8月11日の金運祈願|ダーラナホース【くろのん】#Shorts
 ```
 
-**8/12 21:00 — `kaiun_0812.mp4`**
+**8/12 15:00 — `kaiun_0812.mp4`**
 
 ```
 8月12日の金運祈願|ハムサ【くろのん】#Shorts
@@ -97,43 +97,43 @@ May the sun crow guide your fortune today.
 
 ### 8/13〜8/19(7本)
 
-**8/13 21:00 — `kaiun_0813.mp4`**
+**8/13 15:00 — `kaiun_0813.mp4`**
 
 ```
 8月13日の金運祈願|ナザール・ボンジュウ【くろのん】#Shorts
 ```
 
-**8/14 21:00 — `kaiun_0814.mp4`**
+**8/14 15:00 — `kaiun_0814.mp4`**
 
 ```
 8月14日の金運祈願|だるま【くろのん】#Shorts
 ```
 
-**8/15 21:00 — `kaiun_0815.mp4`**
+**8/15 15:00 — `kaiun_0815.mp4`**
 
 ```
 8月15日の金運祈願|鯉【くろのん】#Shorts
 ```
 
-**8/16 21:00 — `kaiun_0816.mp4`**
+**8/16 15:00 — `kaiun_0816.mp4`**
 
 ```
 8月16日の金運祈願|折り鶴【くろのん】#Shorts
 ```
 
-**8/17 21:00 — `kaiun_0817.mp4`**
+**8/17 15:00 — `kaiun_0817.mp4`**
 
 ```
 8月17日の金運祈願|亀【くろのん】#Shorts
 ```
 
-**8/18 21:00 — `kaiun_0818.mp4`**
+**8/18 15:00 — `kaiun_0818.mp4`**
 
 ```
 8月18日の金運祈願|富士山【くろのん】#Shorts
 ```
 
-**8/19 21:00 — `kaiun_0819.mp4`**
+**8/19 15:00 — `kaiun_0819.mp4`**
 
 ```
 8月19日の金運祈願|打ち出の小槌【くろのん】#Shorts
@@ -141,43 +141,43 @@ May the sun crow guide your fortune today.
 
 ### 8/20〜8/26(7本)
 
-**8/20 21:00 — `kaiun_0820.mp4`**
+**8/20 15:00 — `kaiun_0820.mp4`**
 
 ```
 8月20日の金運祈願|恵比寿様【くろのん】#Shorts
 ```
 
-**8/21 21:00 — `kaiun_0821.mp4`**
+**8/21 15:00 — `kaiun_0821.mp4`**
 
 ```
 8月21日の金運祈願|大黒天【くろのん】#Shorts
 ```
 
-**8/22 21:00 — `kaiun_0822.mp4`**
+**8/22 15:00 — `kaiun_0822.mp4`**
 
 ```
 8月22日の金運祈願|フクロウ【くろのん】#Shorts
 ```
 
-**8/23 21:00 — `kaiun_0823.mp4`**
+**8/23 15:00 — `kaiun_0823.mp4`**
 
 ```
 8月23日の金運祈願|白蛇【くろのん】#Shorts
 ```
 
-**8/24 21:00 — `kaiun_0824.mp4`**
+**8/24 15:00 — `kaiun_0824.mp4`**
 
 ```
 8月24日の金運祈願|狛犬【くろのん】#Shorts
 ```
 
-**8/25 21:00 — `kaiun_0825.mp4`**
+**8/25 15:00 — `kaiun_0825.mp4`**
 
 ```
 8月25日の金運祈願|鳥居【くろのん】#Shorts
 ```
 
-**8/26 21:00 — `kaiun_0826.mp4`**
+**8/26 15:00 — `kaiun_0826.mp4`**
 
 ```
 8月26日の金運祈願|絵馬【くろのん】#Shorts
@@ -185,43 +185,43 @@ May the sun crow guide your fortune today.
 
 ### 8/27〜9/2(7本)
 
-**8/27 21:00 — `kaiun_0827.mp4`**
+**8/27 15:00 — `kaiun_0827.mp4`**
 
 ```
 8月27日の金運祈願|お守り【くろのん】#Shorts
 ```
 
-**8/28 21:00 — `kaiun_0828.mp4`**
+**8/28 15:00 — `kaiun_0828.mp4`**
 
 ```
 8月28日の金運祈願|熊手【くろのん】#Shorts
 ```
 
-**8/29 21:00 — `kaiun_0829.mp4`**
+**8/29 15:00 — `kaiun_0829.mp4`**
 
 ```
 8月29日の金運祈願|水引【くろのん】#Shorts
 ```
 
-**8/30 21:00 — `kaiun_0830.mp4`**
+**8/30 15:00 — `kaiun_0830.mp4`**
 
 ```
 8月30日の金運祈願|金魚【くろのん】#Shorts
 ```
 
-**8/31 21:00 — `kaiun_0831.mp4`**
+**8/31 15:00 — `kaiun_0831.mp4`**
 
 ```
 8月31日の金運祈願|三日月【くろのん】#Shorts
 ```
 
-**9/1 21:00 — `kaiun_0901.mp4`**
+**9/1 15:00 — `kaiun_0901.mp4`**
 
 ```
 9月1日の金運祈願|北極星【くろのん】#Shorts
 ```
 
-**9/2 21:00 — `kaiun_0902.mp4`**
+**9/2 15:00 — `kaiun_0902.mp4`**
 
 ```
 9月2日の金運祈願|桜【くろのん】#Shorts
@@ -229,13 +229,13 @@ May the sun crow guide your fortune today.
 
 ### 9/3〜9/4(2本)
 
-**9/3 21:00 — `kaiun_0903.mp4`**
+**9/3 15:00 — `kaiun_0903.mp4`**
 
 ```
 9月3日の金運祈願|竹【くろのん】#Shorts
 ```
 
-**9/4 21:00 — `kaiun_0904.mp4`**
+**9/4 15:00 — `kaiun_0904.mp4`**
 
 ```
 9月4日の金運祈願|松【くろのん】#Shorts
@@ -246,11 +246,11 @@ May the sun crow guide your fortune today.
 ショートと同じ手順ですが、**サムネイル**を自分で設定します。
 サムネイルを使うには `youtube.com/verify` で電話番号の登録が必要です。
 
-### 8/5 21:00 — a01_why_buying(公開済み)
+### 8/5 15:00 — a01_why_buying(公開済み)
 
 公開済みのため、作業は不要です。
 
-### 8/12 21:00 — a02_where_to_find
+### 8/12 15:00 — a02_where_to_find
 
 **タイトル**
 
@@ -285,7 +285,7 @@ May the sun crow guide your fortune today.
 #スモールMA #会社を買う #事業承継
 ```
 
-### 8/19 21:00 — a03_reading_deals
+### 8/19 15:00 — a03_reading_deals
 
 **タイトル**
 
