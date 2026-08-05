@@ -1,43 +1,28 @@
-# YouTube アップロード手順書(携帯用)
+# 予約の手順書(8/6〜9/4)
 
-**公開開始 2026-08-06。** 上から順にやれば終わります。
+**毎日アップする必要はありません。** YouTube の「予約」に入れておけば、
+あとは毎晩 21:00 に自動で公開されます。社長の作業は週1回・15分だけです。
 
-> 動画の画面に日付が焼き込まれています。**ファイル名の日付と、予約する日付を必ず合わせてください。**
-> 例: `kaiun_0806.mp4` は 8/6 の 21:00 に予約します。
+> この手順書は生成器から機械で作っています。手で書き直さないでください
+> (手書き版で、30本の縁起物名が全部落ちる事故が起きました)。
 
----
-
-## はじめに1回だけやること
-
-**1. チャンネルを作る** — YouTubeアプリ → 右上のアイコン → 「チャンネルを作成」。名前は「くろのん」。
-
-**2. 電話番号を登録する** — ブラウザで `youtube.com/verify`。
-これをしないと、本編のサムネイル(お送りした3枚)が使えません。
-
-> 作成直後は予約投稿が使えないことがあります。その場合は数時間おいてから始めてください。
-
----
-
-## ショート1本のアップ手順(1〜2分)
+## 1本あたりの手順(1〜2分)
 
 1. YouTubeアプリ下の **「+」** → **「動画をアップロード」**
-2. 動画を選ぶ(縦長・49秒なので自動でショート扱いになります)
+2. 動画を選ぶ(縦長・49秒なので自動でショートになります)
 3. **タイトル**を貼る(下の一覧から、ファイル名に対応するもの)
-4. **説明**を貼る(下の共通文。30本すべて同じ)
+4. **説明**を貼る(次の共通文。30本すべて同じ)
 5. **「視聴者」→「いいえ、子ども向けではありません」**
-6. **AI音声の開示を「はい」にする**(合成音声のため必須)
+6. **AI音声の開示を「はい」**(合成音声のため必須)
 7. **「公開設定」→「スケジュール設定」→ ファイル名の日付の 21:00**
 8. アップロード
 
 > **6番が見つからないとき**: 項目名はアプリの版で変わります。
 > 「変更/合成コンテンツ」「AI生成」などの語がある項目を「はい」にしてください。
 
-> **途中でやめて大丈夫です。** 最低でも最初の7本(8/6〜8/12)を入れておけば1週間もちます。
-> 残りは後日で間に合います。
+> **画面に日付が焼き込まれています。** ファイル名の日付と予約日を必ず合わせてください。
 
----
-
-## 共通の説明文(30本すべてこれ)
+## ショート共通の説明文
 
 ```
 毎晩21時、導きの八咫烏くろのんが、あなたの金運を祓い清めます。
@@ -48,7 +33,7 @@
 現役サラリーマンの僕が、小さな会社を「買えるまで」を記録するチャンネルです。本編(週1)では、案件の探し方から交渉・契約まで、失敗も含めてすべて公開します。
 
 ※開運演出はエンターテインメントです(効果を保証するものではありません)
-※ナレーションはAI音声合成を使用 / VOICEVOX:冥鳴ひまり
+※本動画のナレーションはAI音声合成を使用しています / VOICEVOX:冥鳴ひまり
 ※環境音: 熊野・那智の滝(チャンネル管理者が現地で録音した実音)
 
 ▼BGM
@@ -62,9 +47,11 @@ Every night at 21:00 JST, Kuronon — the guiding three-legged sun crow of Japan
 May the sun crow guide your fortune today.
 ```
 
----
+## ショートの予約表(30本)
 
-## 30本のタイトル一覧
+**7本ずつ、週に1回**入れてください。1回15分ほどで、1週間ぶん先まで埋まります。
+
+### 8/6〜8/12(7本)
 
 **8/6 21:00 — `kaiun_0806.mp4`**
 
@@ -108,6 +95,8 @@ May the sun crow guide your fortune today.
 8月12日の金運祈願|ハムサ【くろのん】#Shorts
 ```
 
+### 8/13〜8/19(7本)
+
 **8/13 21:00 — `kaiun_0813.mp4`**
 
 ```
@@ -149,6 +138,8 @@ May the sun crow guide your fortune today.
 ```
 8月19日の金運祈願|打ち出の小槌【くろのん】#Shorts
 ```
+
+### 8/20〜8/26(7本)
 
 **8/20 21:00 — `kaiun_0820.mp4`**
 
@@ -192,6 +183,8 @@ May the sun crow guide your fortune today.
 8月26日の金運祈願|絵馬【くろのん】#Shorts
 ```
 
+### 8/27〜9/2(7本)
+
 **8/27 21:00 — `kaiun_0827.mp4`**
 
 ```
@@ -234,6 +227,8 @@ May the sun crow guide your fortune today.
 9月2日の金運祈願|桜【くろのん】#Shorts
 ```
 
+### 9/3〜9/4(2本)
+
 **9/3 21:00 — `kaiun_0903.mp4`**
 
 ```
@@ -246,49 +241,16 @@ May the sun crow guide your fortune today.
 9月4日の金運祈願|松【くろのん】#Shorts
 ```
 
----
+## 本編(横長・週1本)
 
-## 本編3本
+ショートと同じ手順ですが、**サムネイル**を自分で設定します。
+サムネイルを使うには `youtube.com/verify` で電話番号の登録が必要です。
 
-横長・6分台。**サムネイルはお送りした画像を設定**してください(電話番号の登録が必要)。
+### 8/5 21:00 — a01_why_buying(公開済み)
 
-公開日の目安: A-1 = 8/9(日)、A-2 = 8/16(日)、A-3 = 8/23(日) の各21:00。
+公開済みのため、作業は不要です。
 
-### A-1
-
-**タイトル**
-
-```
-なぜ現役サラリーマンの僕が「会社を買う」のか【スモールM&A実録 #1】
-```
-
-**説明**
-
-```
-現役サラリーマンの僕が、小さな会社を「買えるまで」を現在進行形で記録するチャンネルです。案件の探し方から、交渉、資金調達、契約まで、失敗も含めてすべて公開します。
-
-▼このチャンネルについて
-・くろのんは、迷う人を導く三本足の神鳥・八咫烏(やたがらす)がモチーフです
-・動画内の法務・会計・税務に関する内容は、専門家(弁護士・会計士)に確認した一般論であり、特定の取引を推奨するものではありません。実際の判断はご自身で専門家にご相談ください
-・守秘義務の観点から、個別案件の特定につながる情報(社名・金額・関係者等)は公開しません
-
-▼音声について
-本動画のナレーションはAI音声合成を使用しています / VOICEVOX:青山龍星
-
-▼BGM
-"Ishikari Lore" Kevin MacLeod (incompetech.com)
-Licensed under Creative Commons: By Attribution 4.0
-https://creativecommons.org/licenses/by/4.0/
-
----
-I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Ryusei Aoyama).
-
-May the sun crow guide your fortune today.
-
-#スモールMA #会社を買う #個人MA
-```
-
-### A-2
+### 8/12 21:00 — a02_where_to_find
 
 **タイトル**
 
@@ -313,17 +275,17 @@ May the sun crow guide your fortune today.
 ・守秘義務の観点から、個別案件の特定につながる情報(社名・金額・関係者等)は公開しません
 
 ▼音声について
-本動画のナレーションはAI音声合成を使用しています / VOICEVOX:青山龍星
+本動画のナレーションはAI音声合成を使用しています / VOICEVOX:冥鳴ひまり
 
 ---
-I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Episode 2 maps the four channels for finding businesses for sale in Japan, including what each one really costs. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Ryusei Aoyama).
+I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Episode 2 maps the four channels for finding businesses for sale in Japan, including what each one really costs. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Meimei Himari).
 
 May the sun crow guide your fortune today.
 
 #スモールMA #会社を買う #事業承継
 ```
 
-### A-3
+### 8/19 21:00 — a03_reading_deals
 
 **タイトル**
 
@@ -344,24 +306,20 @@ May the sun crow guide your fortune today.
 ・守秘義務の観点から、個別案件の特定につながる情報(社名・金額・関係者等)は公開しません
 
 ▼音声について
-本動画のナレーションはAI音声合成を使用しています / VOICEVOX:青山龍星
+本動画のナレーションはAI音声合成を使用しています / VOICEVOX:冥鳴ひまり
 
 ---
-I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Episode 3 teaches you to read an anonymous deal teaser and spot the four red flags of a business you should not buy. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Ryusei Aoyama).
+I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Episode 3 teaches you to read an anonymous deal teaser and spot the four red flags of a business you should not buy. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Meimei Himari).
 
 May the sun crow guide your fortune today.
 
 #スモールMA #会社を買う #デューデリジェンス
 ```
 
----
-
 ## 特別編「さようなら」
 
 2分24秒の横長。日付が入っていないので、いつ公開しても大丈夫です。
 他が軌道に乗ってから単独で出すのがよいと思います。
-
----
 
 ## よくあるつまずき
 
@@ -369,8 +327,11 @@ May the sun crow guide your fortune today.
 
 **予約が選べない** — チャンネル作成直後は使えないことがあります。数時間おいてお試しください。
 
+**一度にたくさん上げられない** — 新しいチャンネルには1日の上限があります。弾かれたら7本で止めて、翌日に続けてください。
+
 **サムネイルが設定できない** — `youtube.com/verify` の電話番号登録が済んでいません。
 
 **間違えて公開してしまった** — YouTube Studio から「非公開」に戻せます。慌てなくて大丈夫です。
 
 **日付を間違えて予約した** — 公開前なら Studio でいつでも直せます。
+

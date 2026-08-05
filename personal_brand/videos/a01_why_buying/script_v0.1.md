@@ -20,7 +20,7 @@
 | 9 | 開運祈願(新設) | - | happy | 黒い日輪+金の粒子の神秘背景。「開運祈願」タイトル→お祓い→金運の祈り。※エンタメ免責テロップ必須 |
 | 10 | 締めの口上+次回予告 | - | normal→happy | 神秘背景(暖色)。A-2予告カード。チャンネル登録誘導 |
 
-## 2. ナレーション全文(VOICEVOX 青山龍星・そのまま貼付可)
+## 2. ナレーション全文(VOICEVOX 冥鳴ひまり・そのまま貼付可)
 
 **[1 フック]**
 とつぜんですが、しつもんです。会社って、つくるものだと思っていませんか。じつは、会社は、「買える」んです。しかも、宝くじみたいな話じゃありません。ふつうのサラリーマンが、手のとどく金額で、です。……信じられませんよね。僕も、いちねん前まではそうでした。この動画では、なぜ僕が、貯金でも、株でもなく、「会社を買う」ことを選んだのか。その理由を、ぜんぶ話します。
@@ -72,7 +72,7 @@
 > ・守秘義務の観点から、個別案件の特定につながる情報(社名・金額・関係者等)は公開しません
 >
 > ▼音声について
-> 本動画のナレーションはAI音声合成を使用しています / VOICEVOX:青山龍星
+> 本動画のナレーションはAI音声合成を使用しています / VOICEVOX:冥鳴ひまり
 >
 > ---
 > I'm an ordinary Japanese salaryman documenting my journey to buy a small business in Japan — sourcing, negotiation, financing, and closing, failures included, in real time. Kuronon, our narrator crow, is inspired by the Yatagarasu: the three-legged sun crow of Japanese mythology that guides the lost to victory. Legal, accounting, and tax topics are general information reviewed with licensed professionals, not advice. Narration is AI-generated (VOICEVOX: Ryusei Aoyama).
