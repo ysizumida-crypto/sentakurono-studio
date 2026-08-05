@@ -49,6 +49,15 @@ cd ~/kuronon-work && python3 <生成器> && bash <圧縮>
 
 納品前に必ず測る。**数値が揃わなければ出さない。**
 
+```bash
+python3 personal_brand/videos/engine/verify_short.py \
+  --src ~/kuronon-work/nachi/falls_loop.mp4 ~/kuronon-work/kaiun_sep/out/*.mp4
+```
+
+終了コードが 0 でなければ納品しない。滝のブレだけは素材の段階で測る
+(`bootstrap.sh` が `nachi/lock_report.txt` に残す。合格は平均1px未満)。
+
+
 | 項目 | 合格の基準 | 測り方 |
 |---|---|---|
 | 滝のブレ | 平均1px未満 | `measure_shake.py` |
