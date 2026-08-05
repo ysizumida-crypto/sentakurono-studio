@@ -32,10 +32,15 @@ os.makedirs(f'{BASEDIR}/short01', exist_ok=True)
 FIXED = {
  # hook は 6.0秒のカットに 0.25秒から入る。実測 4.85秒なので尾が 0.9秒残る。
  # 「熊野、」を入れると 5.98秒になり尾が消えて語尾が切れた(2026-08-05 実測)。
- 'hook':  ('きょうの金運、清めます。この音は、那智の滝の実際の音です。', 1.12),
- 'norito':('祓い給え、清め給え、守り給い、幸え給え。', 0.82),
- 'harai_rest':('古くから略拝詞と呼ばれてきた、四つの祈りです。', 1.05),
- 'close': ('また明日、ここで。', 1.05),
+ # (読み上げ文, 話速, 読みの固定)。読みは合成器の辞書に任せない
+ 'hook':  ('きょうの金運、清めます。この音は、那智の滝の実際の音です。', 1.12, None),
+ # 祝詞は略拝詞の正式な形。**一字も変えないこと。** 読みも下のかなで固定する
+ 'norito':('祓い給え、清め給え、守り給い、幸え給え。', 0.82,
+           "ハラ'イタマエ、キヨ'メタマエ、マモ'リタマイ、サキワ'エタマエ"),
+ # 「略拝詞」は リャクハイシト と誤読され、かなで書くと「は」を助詞に取られる。
+ # 名前を出さずに言い換えた
+ 'harai_rest':('古くから伝わる、四つの祈りの言葉です。', 1.05, None),
+ 'close': ('また明日、ここで。', 1.05, None),
 }
 
 # 儀式の効果音(49秒)。9月分と同一の音になるよう、乱数の種まで固定してある。
@@ -89,12 +94,12 @@ CHARMS = [  # (日, 縁起物名, 読み上げ文, 画面JP, 画面EN)
  (8,'ナザール・ボンジュウ','きょうの縁起物は、ナザール・ボンジュウ。青い目が、悪意から目を守ります。','ナザール・ボンジュウ',"The nazar — the blue eye that watches over you."),
  (9,'だるま','きょうの縁起物は、だるま。ななころび、やおき。','だるま',"The daruma — fall seven times, rise eight."),
  (10,'鯉','きょうの縁起物は、こい。滝をのぼって、龍になると言われます。','鯉(こい)',"The koi — the carp that climbs waterfalls."),
- (11,'折り鶴','きょうの縁起物は、おりづる。千年の祈りを、一羽にたたみます。','折り鶴',"The paper crane — a thousand years in one fold."),
+ (11,'折り鶴','きょうの縁起物は、おりづる。せんねんの祈りを、一羽にたたみます。','折り鶴',"The paper crane — a thousand years in one fold."),
  (12,'亀','きょうの縁起物は、かめ。まんねんの、ながい繁栄のしるしです。','亀(かめ)',"The turtle — ten thousand years of steady luck."),
  (13,'富士山','きょうの縁起物は、ふじさん。いちばん高いところから、運がくだります。','富士山',"Mt. Fuji — fortune flows from the summit."),
- (14,'打ち出の小槌','きょうの縁起物は、うちでのこづち。ふれば願いがかなう、伝説の槌です。','打ち出の小槌',"The magic mallet — one swing, one wish."),
+ (14,'打ち出の小槌','きょうの縁起物は、うちでのこづち。ふれば願いがかなう、伝説のつちです。','打ち出の小槌',"The magic mallet — one swing, one wish."),
  (15,'恵比寿様','きょうの縁起物は、えびすさま。商いの神さまが、ほほえんでいます。','恵比寿様',"Ebisu — the smiling god of commerce."),
- (16,'大黒天','きょうの縁起物は、だいこくてん。米俵の上の、豊かさの神さまです。','大黒天',"Daikokuten — abundance upon rice bales."),
+ (16,'大黒天','きょうの縁起物は、だいこくてん。こめだわらの上の、豊かさの神さまです。','大黒天',"Daikokuten — abundance upon rice bales."),
  (17,'フクロウ','きょうの縁起物は、ふくろう。ふくろうは、不苦労。くろうを遠ざけます。','フクロウ',"The owl — fukurou, a life without hardship."),
  (18,'白蛇','きょうの縁起物は、しろへび。弁天さまの使いで、金運の象徴です。','白蛇(しろへび)',"The white snake — herald of wealth."),
  (19,'狛犬','きょうの縁起物は、こまいぬ。一対で、わるいものをとおしません。','狛犬(こまいぬ)',"Komainu — the guardian pair at the gate."),
@@ -118,10 +123,22 @@ PRAYERS = [  # 4種ローテ (読み上げ, 画面JP, 画面EN)
  ('あなたの明日が、きょうより、すこし豊かでありますように。','明日が、きょうより、<br><span class="g">すこし豊か</span>でありますように。','May tomorrow be a little richer<br>than today.'),
 ]
 
-def synth(text, speed, fn, pause=1.0):
+def synth(text, speed, fn, pause=1.0, kana=None):
+    """kana を渡すと、その読みで固定する。
+
+    漢字のまま渡すと合成器の辞書任せになり、実際に次の誤読が起きていた(2026-08-05 実測):
+      祓い給え → ハライアタエ / 清め給え → キヨメアタエ / 幸え給え → コオエタマエ
+      千年 → チトセ / 槌 → ズチ / 米俵 → ベエタワラ
+    **祝詞や固有の読みは必ず kana で固定すること。** 声を変えても直らない。
+    読みの一覧は check_reading.py で出せる。納品前に必ず目を通すこと。
+    """
     if os.path.exists(fn): return
     q = urllib.parse.urlencode({'text': text, 'speaker': SPK})
     query = json.loads(opener.open(urllib.request.Request(f'{VV}/audio_query?{q}', method='POST'), timeout=300).read())
+    if kana:
+        u = urllib.parse.urlencode({'text': kana, 'speaker': SPK, 'is_kana': 'true'})
+        query['accent_phrases'] = json.loads(opener.open(
+            urllib.request.Request(f'{VV}/accent_phrases?{u}', method='POST'), timeout=300).read())
     query['speedScale'] = speed
     query['pauseLengthScale'] = pause      # 祝詞は句と句のあいだを長くとる
     wav = opener.open(urllib.request.Request(f'{VV}/synthesis?speaker={SPK}',
@@ -131,8 +148,8 @@ def synth(text, speed, fn, pause=1.0):
 
 def build_fixed():
     """全日共通のナレーションを作る。祝詞だけ間を広くとり、祓いは一続きに繋ぐ。"""
-    for name, (text, sp) in FIXED.items():
-        synth(text, sp, f'{S1}/{name}.wav', pause=1.4 if name == 'norito' else 1.0)
+    for name, (text, sp, kn) in FIXED.items():
+        synth(text, sp, f'{S1}/{name}.wav', pause=1.4 if name == 'norito' else 1.0, kana=kn)
     if not os.path.exists(f'{S1}/harai.wav'):        # 祝詞 → 0.5秒の間 → 説明
         w = wave.open(f'{S1}/norito.wav'); pr = w.getparams(); a = w.readframes(w.getnframes()); w.close()
         w = wave.open(f'{S1}/harai_rest.wav'); b = w.readframes(w.getnframes()); w.close()
