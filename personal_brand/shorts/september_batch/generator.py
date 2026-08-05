@@ -8,6 +8,17 @@ import os as _os
 # 作業場所は毎回変わる。KURONON_WORK で受け取り、無ければ従来の場所を使う。
 BASEDIR = _os.environ.get('KURONON_WORK', '/tmp/claude-0/-home-user-sentakurono-studio/907dc579-de5f-57c5-893f-d6ea2ffa36f8/scratchpad')
 WINDUR = 3.6   # 那智の滝ループ(絶対固定版)の長さ
+
+# 公開初日。KURONON_START=YYYY-MM-DD で指定する。
+# 日付は画面の帯に焼き込まれるので、公開予定日と必ず一致させること。
+import datetime as _dt
+START = _dt.date.fromisoformat(_os.environ.get('KURONON_START', '2026-09-01'))
+def pubdate(day):            # day は 1 起点
+    return START + _dt.timedelta(days=day - 1)
+def datelabel(day):
+    d = pubdate(day); return f'{d.month}月{d.day}日'
+def datetag(day):
+    d = pubdate(day); return f'{d.month:02d}{d.day:02d}'
 os.makedirs(f'{BASEDIR}/kaiun_sep/segs', exist_ok=True)
 os.makedirs(f'{BASEDIR}/short01', exist_ok=True)
 
@@ -234,20 +245,20 @@ os.makedirs('out', exist_ok=True)
 for day,cname,cspoken,cjp,cen in CHARMS:
     tag=f'day{day:02d}'
     synth(cspoken, 1.1, f'segs/charm{day:02d}.wav')
-    render_overlay(f'segs/ov_charm{day:02d}.html', f'segs/ov_charm{day:02d}.png',
+    render_overlay(f'segs/ov_charm{datetag(day)}.html', f'segs/ov_charm{datetag(day)}.png',
         fs=(74 if len(cjp)<=8 else 64), entop=640,
-        chip=f'9月{day}日の金運祈願 — DAILY FORTUNE PRAYER',
+        chip=f'{datelabel(day)}の金運祈願 — DAILY FORTUNE PRAYER',
         jp=f'今日の縁起物<br><span class="g">{cjp}</span>',
         en=cen + f'<div style="margin-top:36px;font-size:150px;font-family:\'Noto Color Emoji\'">{EMOJI[day-1]}</div>')
-    encode_seg(f'segs/charm{day:02d}.mp4', f'segs/ov_charm{day:02d}.png', f'segs/charm{day:02d}.wav',
+    encode_seg(f'segs/charm{datetag(day)}.mp4', f'segs/ov_charm{datetag(day)}.png', f'segs/charm{day:02d}.wav',
         DUR['charm'], 'happy', VOFF['charm'], (day*1.7)%8, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=22.0)
     pi=(day-1)%4
-    final=f'out/kaiun_sep{day:02d}.mp4'
+    final=f'out/kaiun_{datetag(day)}.mp4'
     if not os.path.exists(final):
         # 映像連結
         cc=f'segs/cc{day:02d}.txt'
         open(cc,'w').write('\n'.join([
-            "file 'hook.mp4'","file 'harai.mp4'",f"file 'charm{day:02d}.mp4'",
+            "file 'hook.mp4'","file 'harai.mp4'",f"file 'charm{datetag(day)}.mp4'",
             f"file 'prayer{pi}.mp4'","file 'close.mp4'"]))
         subprocess.run(['ffmpeg','-y','-f','concat','-safe','0','-i',f'cc{day:02d}.txt','-c','copy',f'v{day:02d}.mp4'],
                        check=True,capture_output=True,cwd='segs')
