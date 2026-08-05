@@ -22,16 +22,21 @@ def datetag(day):
 os.makedirs(f'{BASEDIR}/kaiun_sep/segs', exist_ok=True)
 os.makedirs(f'{BASEDIR}/short01', exist_ok=True)
 
-# 固定部分のナレーションはリポジトリの正本を使う。
-# 読み上げ文の原文が失われているため合成し直せない(2026-08-04 判明)。
-# 9月分と声を揃えるためにも、ここは作り直さず現物を運ぶ。
-import shutil as _sh
-_FIXED = _os.environ.get('KURONON_REPO', '/home/user/sentakurono-studio') \
-         + '/personal_brand/shorts/september_batch/fixed_narration'
-for _n in ('hook','harai','norito','harai_rest','close'):
-    _dst = f'{BASEDIR}/short01/{_n}.wav'
-    if not os.path.exists(_dst) and os.path.exists(f'{_FIXED}/{_n}.wav'):
-        _sh.copy(f'{_FIXED}/{_n}.wav', _dst)
+# 固定部分のナレーション。**読み上げ文はここが正本**。
+#
+# 2026-08-04 の時点では原文が失われていて音声ファイルを運ぶしかなかったが、
+# 2026-08-05 に声を青山龍星へ戻すにあたり、画面のテロップから復元して書き戻した。
+# 音声ファイルではなく文を持っておけば、声も速さも後から変えられる。
+#
+# 祝詞は略拝詞の正式な形。**一字も変えないこと。**
+FIXED = {
+ # hook は 6.0秒のカットに 0.25秒から入る。実測 4.85秒なので尾が 0.9秒残る。
+ # 「熊野、」を入れると 5.98秒になり尾が消えて語尾が切れた(2026-08-05 実測)。
+ 'hook':  ('きょうの金運、清めます。この音は、那智の滝の実際の音です。', 1.12),
+ 'norito':('祓い給え、清め給え、守り給い、幸え給え。', 0.82),
+ 'harai_rest':('古くから略拝詞と呼ばれてきた、四つの祈りです。', 1.05),
+ 'close': ('また明日、ここで。', 1.05),
+}
 
 # 儀式の効果音(49秒)。9月分と同一の音になるよう、乱数の種まで固定してある。
 def _build_sfx(path, total=49.0):
@@ -68,7 +73,10 @@ BG = f'{BASEDIR}/mystic/mystic_bg_v3.mp4'
 S1 = f'{BASEDIR}/short01'
 FPS = 30
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-VV = 'http://127.0.0.1:50021'; SPK = 14
+VV = 'http://127.0.0.1:50021'
+# 話者13 = 青山龍星。企画の正本(youtube_ma_series_plan.md)で承認された声。
+# 2026-08-04〜05 は 14(冥鳴ひまり)で作ってしまっていた。台本の一人称は「僕」なので戻した。
+SPK = 13
 
 CHARMS = [  # (日, 縁起物名, 読み上げ文, 画面JP, 画面EN)
  (1,'四つ葉のクローバー','きょうの縁起物は、よつばのクローバー。見つかる確率は、いちまんぶんのいち。','四つ葉のクローバー',"The four-leaf clover — one in 10,000."),
@@ -110,14 +118,26 @@ PRAYERS = [  # 4種ローテ (読み上げ, 画面JP, 画面EN)
  ('あなたの明日が、きょうより、すこし豊かでありますように。','明日が、きょうより、<br><span class="g">すこし豊か</span>でありますように。','May tomorrow be a little richer<br>than today.'),
 ]
 
-def synth(text, speed, fn):
+def synth(text, speed, fn, pause=1.0):
     if os.path.exists(fn): return
     q = urllib.parse.urlencode({'text': text, 'speaker': SPK})
     query = json.loads(opener.open(urllib.request.Request(f'{VV}/audio_query?{q}', method='POST'), timeout=300).read())
     query['speedScale'] = speed
+    query['pauseLengthScale'] = pause      # 祝詞は句と句のあいだを長くとる
     wav = opener.open(urllib.request.Request(f'{VV}/synthesis?speaker={SPK}',
         data=json.dumps(query).encode(), headers={'Content-Type':'application/json'}, method='POST'), timeout=900).read()
     open(fn,'wb').write(wav)
+
+
+def build_fixed():
+    """全日共通のナレーションを作る。祝詞だけ間を広くとり、祓いは一続きに繋ぐ。"""
+    for name, (text, sp) in FIXED.items():
+        synth(text, sp, f'{S1}/{name}.wav', pause=1.4 if name == 'norito' else 1.0)
+    if not os.path.exists(f'{S1}/harai.wav'):        # 祝詞 → 0.5秒の間 → 説明
+        w = wave.open(f'{S1}/norito.wav'); pr = w.getparams(); a = w.readframes(w.getnframes()); w.close()
+        w = wave.open(f'{S1}/harai_rest.wav'); b = w.readframes(w.getnframes()); w.close()
+        o = wave.open(f'{S1}/harai.wav','wb'); o.setparams(pr)
+        o.writeframes(a + b'\x00' * int(pr.framerate * pr.sampwidth * 0.5) + b); o.close()
 
 OV_TPL = '''<!doctype html><html><head><meta charset="utf-8"><style>
 *{{margin:0;padding:0}} html,body{{width:1080px;height:1920px;background:transparent;overflow:hidden}}
@@ -178,7 +198,8 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     gate,_,_,_ = speech_gate(wavfn, voff)
     bob="6*sin(2*PI*1.4*t)"
     fades=''
-    if fade_in: fades+=',fade=t=in:st=0:d=0.5:color=0x0B0710'
+    # 冒頭の暗転は入れない。1コマ目から滝が出ていること(fade_in は末尾のみに使う)
+    if fade_in: fades+=',fade=t=in:st=0:d=0.12:color=0x0B0710'
     if fade_out: fades+=f',fade=t=out:st={vdur-0.6:.2f}:d=0.6:color=0x0B0710'
     blink = (expr == 'base_transparent')
     EW,EH = int(390*F), int(185*F)
@@ -196,7 +217,7 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     fc=f"""[1:v]scale={KW}:-1[k];
 [2:v]crop=130:122:575:588,scale={MW}:{MH}[mh];
 [3:v]crop=130:122:575:588,scale={MW}:{MH}[mo];
-[4:v]format=rgba,fade=t=in:st=0.15:d=0.5:alpha=1[txt];
+[4:v]format=rgba,fade=t=in:st=0:d=0.12:alpha=1[txt];
 {whead}
 {src}[k]overlay={KX}:y='{KY}+{bob}'[v1];
 [v1][mh]overlay={MX}:y='{MY}+{bob}':enable='({gate})*(lt(mod(t,0.20),0.05)+gte(mod(t,0.20),0.15))'[v2];
@@ -224,8 +245,11 @@ def audio_chunk(wavfn, voff, dur):
     return chunk[:ns*sw]+b'\x00'*max(0,ns*sw-len(chunk)), r
 
 # ---- 共通セグメント(short01 の資産を再利用) ----
+build_fixed()
+
 DUR = dict(hook=6.0, harai=16.0, charm=9.0, prayer=12.0, close=6.0)
-VOFF = dict(hook=2.4, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
+# ショートは最初の1〜2秒で指が動く。hook の 2.4 は、その一番高い席を無音で使っていた。
+VOFF = dict(hook=0.25, harai=1.2, charm=0.8, prayer=1.5, close=0.6)
 os.makedirs('segs', exist_ok=True)
 # 共通カットは瞬き付きで自前エンコード(hook/harai=丸目なので瞬き、close=にこにこ目なので不要)
 encode_seg('segs/hook.mp4',  f'{S1}/ov_hook.png',  f'{S1}/hook.wav',  DUR['hook'],  'base_transparent', VOFF['hook'],  0.0, fade_in=True, window=f'{BASEDIR}/nachi/falls_loop.mp4', woff=0.0)
