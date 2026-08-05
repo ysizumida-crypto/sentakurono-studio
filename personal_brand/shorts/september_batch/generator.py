@@ -198,8 +198,9 @@ def encode_seg(out, ovpng, wavfn, dur, expr, voff, bgoff, fade_in=False, fade_ou
     gate,_,_,_ = speech_gate(wavfn, voff)
     bob="6*sin(2*PI*1.4*t)"
     fades=''
-    # 冒頭の暗転は入れない。1コマ目から滝が出ていること(fade_in は末尾のみに使う)
-    if fade_in: fades+=',fade=t=in:st=0:d=0.12:color=0x0B0710'
+    # 冒頭は暗転させない。0.12秒でも1コマ目が暗く出る(実測: 明るさ10→45)。
+    # ショートは1コマ目から絵が立っていること。fade_in はもう使わない。
+    if fade_in: pass
     if fade_out: fades+=f',fade=t=out:st={vdur-0.6:.2f}:d=0.6:color=0x0B0710'
     blink = (expr == 'base_transparent')
     EW,EH = int(390*F), int(185*F)

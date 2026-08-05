@@ -15,7 +15,10 @@ MASK = f'{BASEDIR}/nachi/mask.png'
 HS = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell'
 FPS = 30
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-VV = 'http://127.0.0.1:50021'; SPK = 14
+VV = 'http://127.0.0.1:50021'
+# 話者13 = 青山龍星。台本の一人称は「僕」で、語り手は三十代の会社員という設定。
+# 2026-08-04〜05 は 14(冥鳴ひまり)で作っており、声と語りが食い違っていた。
+SPK = 13
 
 KX,KY,KW = 1220,510,640
 F = KW/1254
