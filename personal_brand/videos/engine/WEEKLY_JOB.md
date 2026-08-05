@@ -49,21 +49,34 @@ cd ~/kuronon-work && python3 <生成器> && bash <圧縮>
 
 納品前に必ず測る。**数値が揃わなければ出さない。**
 
+生成器の出力はまだ納品物ではない。音量が -25 LUFS 前後で、1本 37MB ある。
+必ず仕上げてから測ること。**測るのは仕上げた後のファイル**(圧縮で数値は動く)。
+
 ```bash
-python3 personal_brand/videos/engine/verify_short.py \
-  --src ~/kuronon-work/nachi/falls_loop.mp4 ~/kuronon-work/kaiun_sep/out/*.mp4
+W=~/kuronon-work
+bash personal_brand/videos/engine/deliver_short.sh $W/kaiun_sep/out $W/kaiun_sep/deliver
+
+python3 personal_brand/videos/engine/verify_short.py $W/kaiun_sep/deliver/*.mp4 \
+  --src $W/nachi/falls_loop.mp4 --mask $W/nachi/mask.png \
+  --overlays "$W/short01/ov_*.png" "$W/kaiun_sep/segs/ov_*.png"
 ```
+
+`--mask` と `--overlays` を省くと色の検査が飛ぶ。**窓の外と文字の上を数えてしまい、
+正しければ 2〜3 のところが 13 と出る**(2026-08-05 に実際にやった)。
 
 終了コードが 0 でなければ納品しない。滝のブレだけは素材の段階で測る
 (`bootstrap.sh` が `nachi/lock_report.txt` に残す。合格は平均1px未満)。
+
+**社長へは、この検査を通したファイルそのものを送る。** 別に作り直したものを送ると、
+測った数値とお渡ししたものが別物になる。
 
 
 | 項目 | 合格の基準 | 測り方 |
 |---|---|---|
 | 滝のブレ | 平均1px未満 | `measure_shake.py` |
-| コマの重複 | 窓の中で0 | 隣接コマの差が中央値の25%未満の数を数える |
+| コマの重複 | 窓の中で0 | **動いた画素が0.5%未満**のコマを数える(平均差で見ると圧縮後に誤検出する) |
 | 音の途切れ | 0箇所 | 各カット境界の直前0.4秒が無音(RMS<300)か |
-| 窓の色 | 元素材との差が5未満 | **文字のない領域**で比較(文字の上で測ると縁取りを誤検出する) |
+| 窓の色 | 元素材との差が5未満 | マスクが**完全不透明**かつ**文字が来ない**画素だけで比較 |
 | 音量 | -13〜-16 LUFS | `ebur128` |
 | 尺 | 49.0±0.2秒 | `ffprobe` |
 
